@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export function listSources(obj){
     let source = [];
     for (let index = 0; index < obj.length; index++) {

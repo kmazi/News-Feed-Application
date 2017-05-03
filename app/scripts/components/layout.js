@@ -3,28 +3,39 @@ import {Link} from 'react-router';
 import Source from './sources';
 import Headline from './headlines';
 import {listSources} from '../apiCall/news';
-import axios from 'axios';
+import najax from 'najax';
 
 export default class Layout extends React.Component {
     constructor(prop){
         super(prop);
-        this.state = {};
-        this.getSources = this.getSources.bind(this);
+        this.state = {source: [{id:"abc news"},{id:"abc news"},{id:"abc news"},{id:"abc news"},{id:"abc news"}]};
+        
     }
 
-    getSources(){
+    componentDidMount() {
         const url = 'https://newsapi.org/v1/sources';
-        const data = axios.get(url).then(res => {
-            const data = listSources(res.data.sources);1
+        najax({url: url, type: 'GET'}).success((data)=>{
+            let datasrc = JSON.parse(data);
+            datasrc = datasrc.sources;
+            this.setState({source: datasrc});
         });
     }
+
     render(){
-        this.getSources();
+        
         return(
+        
             <div className='row'>
                 
                     <div class='col-md-4'>
-                        <Source/>
+                        <h3 className='btn btn-default'>News Channels</h3><br/>
+                        
+                        <div>
+                            {this.state.source.map((data, i)=>{
+                               return <h6 key={i}>{data.id}</h6>
+                            })}
+                        </div>
+                
                     </div>
                     <div className='col-md-8'>
                         <Headline/>

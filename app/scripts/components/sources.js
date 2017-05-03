@@ -8,7 +8,10 @@ export default class Source extends React.Component{
     render(){
         return(
            <div>
-               <h3 className='btn btn-default'>News Channels</h3>
+               
+               <div>
+                   {this.props.data[0]}
+               </div>
                <NewsSource />
            </div>
         );
