@@ -5,7 +5,7 @@ import Layout from './components/layout'
 
 const app = document.getElementById('app');
 ReactDOM.render(
- <Layout/>,
+  <Layout/>,
 app);
 
 {/*<Router history={hashHistory}>

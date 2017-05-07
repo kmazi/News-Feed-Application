@@ -2,5 +2,6 @@
     "extends": "eslint:recommended",
     "env": {
         "browser": true
-    }
+    },
+    "react/no-multi-comp": [true, { "ignoreStateless": true}]
 }
