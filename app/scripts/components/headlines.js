@@ -42,9 +42,9 @@ export default class Headline extends React.Component{
         return(
            <div>
                <div>
-                    <button className='btn btn-default btn-primary' onClick={this.getHeadlineFilter}>Top</button>
-                    <button className='btn btn-default btn-primary' onClick={this.getHeadlineFilter}>Popular</button>
-                    <button className='btn btn-default btn-primary' onClick={this.getHeadlineFilter}>Latest</button>
+                    <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='top' onClick={this.getHeadlineFilter}>Top</button>
+                    <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='popular' onClick={this.getHeadlineFilter}>Popular</button>
+                    <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='latest' onClick={this.getHeadlineFilter}>Latest</button>
                 </div>
                <div>
                     {
