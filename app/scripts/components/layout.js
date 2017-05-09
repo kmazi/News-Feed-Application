@@ -6,12 +6,15 @@ import {listSources} from '../apiCall/news';
 import jquery from 'jquery';
 import ApiDataStore from './store/apistore';
 import * as ApiActions from './actions/apiActions';
+import GoogleLogin from 'react-google-login';
+
 
 export default class Layout extends React.Component {
     constructor(props){
         super(props);
         this.state = {source: [{id:'loading...'}], source1: {source:'loading...'}};
         this.getHeadlineData = this.getHeadlineData.bind(this);
+        this.responseGoogle = this.responseGoogle.bind(this);
     }
 
     componentWillMount() {
@@ -33,10 +36,21 @@ export default class Layout extends React.Component {
         e.preventDefault();
         ApiActions.getApiData(e);
     }
+     
+    responseGoogle = (response) => {
+     console.log(response.profileObj.email);
+    }
 
     render(){
         return(
+            
             <div className='row'>
+                <GoogleLogin
+                    clientId="612880892062-b1up84kvbqgnh2mt5vjlh1cqb4554ult.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={this.responseGoogle}
+                    onFailure={this.responseGoogle}
+                />
                 <div>
                     <div>iNews</div>
                     <div className='jumbotron'>
