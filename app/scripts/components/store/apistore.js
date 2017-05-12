@@ -1,16 +1,15 @@
-import {EventEmitter} from 'events';
-import jquery from 'jquery';
+import { EventEmitter } from 'events';
 import dispatcher from '../dispatcher';
 
-class ApiDataStore extends EventEmitter{
-    constructor(){
+class ApiDataStore extends EventEmitter {
+    constructor() {
         super();
         this.headlines = {};
     }
 
-    getArticleData(data){
+    getArticleData(data) {
         this.headlines = data;
-        this.emit("change");
+        this.emit('change');
     }
 
     getArticleFilteredData(data){

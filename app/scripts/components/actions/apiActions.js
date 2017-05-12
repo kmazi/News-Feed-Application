@@ -1,16 +1,16 @@
-import dispatcher from '../dispatcher';
 import jquery from 'jquery';
+import dispatcher from '../dispatcher';
 
-const url =  'https://newsapi.org/v1/articles';
+const url = 'https://newsapi.org/v1/articles';
 const key = '213327409d384371851777e7c7f78dfe';
-export function getApiData(source){
+export function getApiData(source) {
         const src = source.target.getAttribute('value');
-        const data = {source: src, apiKey: key};
+        const data = { source: src, apiKey: key };
 
         jquery.ajax({
             url: url,
             data: data,
-            success: (res)=>{
+            success: (res) => {
               dispatcher.dispatch(
                 {
                 type: 'GET_API_ARTICLE',
@@ -18,11 +18,11 @@ export function getApiData(source){
                 }
                );
               },
-             error(xhr){
+             error() {
                 dispatcher.dispatch(
                 {
                   type: 'GET_API_ARTICLE',
-                  headlines: "Error in loading headlines"
+                  headlines: 'Error in loading headlines'
                 }
                );
              }
@@ -38,7 +38,7 @@ export function getApiFilteredData(e){
        jquery.ajax({
             url: url,
             data: data,
-            success: (res)=>{
+            success: (res) => {
               dispatcher.dispatch(
                 {
                 type: 'GET_API_FILTERED_ARTICLE',

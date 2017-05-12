@@ -18,18 +18,19 @@ export default class Headline extends React.Component{
             maxHeight: 300,
             maxWidth: '100%'
         };
+        
         const data = this.props.data;
         if(data.source!=='loading...'){
             let headlinedata = data.articles.map((obj, i)=>{
-                return <div key={i} className='row'>
+                return <div key={i} data-content="news" className="row">
                         <div className='col-md-5'>
                             <img style={imagesize} src={obj.urlToImage}/>
                         </div>
-                        <div className='col-md-7'>
-                            <h3>{obj.title}</h3>
+                        <div className="col-md-7">
+                            <h4 className="text-center"> {obj.title}</h4>
                             <p>{obj.description}</p>
                             <div >
-                            <a href={obj.url} target='blank'>Read more..</a>
+                            <a href={obj.url} target="blank">Read more..</a>
                             </div>
                         </div>
                         </div>
@@ -38,14 +39,19 @@ export default class Headline extends React.Component{
         } 
     }
     render(){
-         
+        let margin={
+          marginTop: 20
+        }
         return(
            <div>
-               <div>
-                    <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='top' onClick={this.getHeadlineFilter}>Top</button>
-                    <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='popular' onClick={this.getHeadlineFilter}>Popular</button>
-                    <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='latest' onClick={this.getHeadlineFilter}>Latest</button>
-                </div>
+               <div className="row">
+                 <h3 className="pull-left">Headlines</h3>
+                 <div className="pull-right" style={margin}>
+                   <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='top' onClick={this.getHeadlineFilter}>Top</button>
+                   <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='popular' onClick={this.getHeadlineFilter}>Popular</button>
+                   <button className='btn btn-default btn-primary' data-filter={this.props.filter} value='latest' onClick={this.getHeadlineFilter}>Latest</button>
+                 </div>
+               </div>
                <div>
                     {
                        this.renderArticles()   

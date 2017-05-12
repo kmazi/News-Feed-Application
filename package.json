@@ -6,6 +6,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-react-html-attrs": "^2.0.0",
@@ -46,7 +47,7 @@
     "extract-text-webpack-plugin": "^2.1.0"
   },
   "scripts": {
-    "build": "webpack -d --display-error-details",
+    "build": "webpack -d --watch --display-error-details",
     "test": "jest",
     "dev": "webpack-dev-server --content-base app --inline --hot"
   },

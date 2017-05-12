@@ -1,2 +1,33 @@
 #app {
   background: #9b9a9a; }
+
+#site-name {
+  font-size: 25px; }
+
+#news-source {
+  background: #eeeeee; }
+
+#news-headline {
+  background: #eeeeee; }
+  #news-headline div[data-content=news] {
+    margin: 10px 0;
+    background: #e2dcd0;
+    box-shadow: 5px 4px 5px #888888; }
+    #news-headline div[data-content=news] p {
+      font-size: 14px; }
+    #news-headline div[data-content=news] h4 {
+      margin-top: 0;
+      background: #d69725;
+      padding: 5px;
+      font-size: 20px; }
+    #news-headline div[data-content=news] .col-md-5 {
+      padding: 0; }
+    #news-headline div[data-content=news] .col-md-7 {
+      padding-right: 0; }
+
+#news-header {
+  background-color: #d69725;
+  min-height: 35px; }
+
+.col-md-3 {
+  margin-right: 10px; }
