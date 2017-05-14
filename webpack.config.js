@@ -1,4 +1,4 @@
-//const Dotenv = require('dotenv-webpack');
+// const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
@@ -39,7 +39,7 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          //resolve-url-loader may be chained before sass-loader if necessary
+          //  resolve-url-loader may be chained before sass-loader if necessary
           use: 'css-loader?importLoaders=1',
         }),
       },

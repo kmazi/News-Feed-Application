@@ -1,5 +1,6 @@
 $header-color: #d69725;
 $news-bkgcolor: rgb(238, 238, 238);
+$news-cont-bkg: #e2dcd0;
 $big-font: 25px;
 
 #app{
@@ -9,11 +10,36 @@ $big-font: 25px;
   font-size: $big-font;
 }
 #news-source{
-  background: $news-bkgcolor;
+  background: $news-cont-bkg;
+}
+#news-source>div{
+  padding: 5px 15px;
+}
+#news-source.col-md-3{
+  padding: 0;
+  h3{
+    background: $header-color;
+    margin: 0;
+    padding: 20px 15px 10px;
+  }
+}
+#news-banner{
+  min-height: 170px;
 }
 #news-headline{
   background: $news-bkgcolor;
-
+  h3{
+    padding-left: 15px;
+  }
+  div.pull-right{
+    padding-right: 15px;
+  }
+  [data-content=news-header]{
+    background: $header-color;
+    button{
+      margin-right:3px;
+    }
+  }
   div[data-content=news]{
     margin: 10px 0;
     background: #e2dcd0;
@@ -42,7 +68,4 @@ $big-font: 25px;
 #news-header{
   background-color: $header-color;
   min-height: 35px;
-}
-.col-md-3{
-  margin-right: 10px;
 }
