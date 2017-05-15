@@ -45,22 +45,24 @@ class Headline extends React.Component {
       marginTop: 20
     };
     return (
-      <div>
+      <div className="col-md-9" id="news-headline">
         <div data-content="news-header" className="row">
           <h3 className="pull-left">Headlines</h3>
           <div className="pull-right" style={margin}>
             <button className="btn btn-default btn-primary"
-                    data-filter={this.props.filter} value="top" 
-                    onClick={this.getHeadlineFilter}>Top
+              data-filter={this.props.filter} value="top"
+              onClick={this.getHeadlineFilter}>Top
             </button>
-            <button className="btn btn-default btn-primary" data-filter={this.props.filter} value="popular" onClick={this.getHeadlineFilter}>Popular</button>
-            <button className="btn btn-default btn-primary" data-filter={this.props.filter} value="latest" onClick={this.getHeadlineFilter}>Latest</button>
+            <button className="btn btn-default btn-primary"
+              data-filter={this.props.filter} value="popular"
+              onClick={this.getHeadlineFilter}>Popular</button>
+            <button className="btn btn-default btn-primary"
+              data-filter={this.props.filter} value="latest"
+              onClick={this.getHeadlineFilter}>Latest</button>
           </div>
         </div>
         <div>
-          {
-            this.renderArticles()
-          }
+          {this.renderArticles()}
         </div>
 
       </div>

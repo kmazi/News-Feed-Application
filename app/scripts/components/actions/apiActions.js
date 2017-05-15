@@ -57,3 +57,11 @@ export function getApiFilteredData(e) {
     }
   });
 }
+
+export function searchThroughSources(e, sources) {
+  dispatcher.dispatch({
+    type: 'SEARCH_THROUGH_SOURCES',
+    data: e,
+    source: sources
+  });
+}

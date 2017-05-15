@@ -5,6 +5,7 @@ class ApiDataStore extends EventEmitter {
   constructor() {
     super();
     this.headlines = {};
+    this.sourcelist = [];
   }
 
   getArticleData(data) {
@@ -21,17 +22,32 @@ class ApiDataStore extends EventEmitter {
     }
   }
 
+  searchSources(data, source) {
+    let list = [];
+    source.forEach((element) => {
+      if (element.id.includes(data)) {
+        list.push(element);
+      }
+    });
+    this.sourcelist = list;
+    this.emit('change');
+  }
+
   handleAllActions(action) {
     switch (action.type) {
-    case 'GET_API_ARTICLE': {
-      this.getArticleData(action.headlines);
-      break;
-    }
-    case 'GET_API_FILTERED_ARTICLE': {
-      this.getArticleFilteredData(action.headlines);
-      break;
-    }
-    default:
+      case 'GET_API_ARTICLE': {
+        this.getArticleData(action.headlines);
+        break;
+      }
+      case 'GET_API_FILTERED_ARTICLE': {
+        this.getArticleFilteredData(action.headlines);
+        break;
+      }
+      case 'SEARCH_THROUGH_SOURCES': {
+        this.searchSources(action.data, action.source);
+        break;
+      }
+      default:
     }
   }
 }
