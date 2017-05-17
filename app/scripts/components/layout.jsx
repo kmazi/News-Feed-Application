@@ -12,7 +12,7 @@ export default class Layout extends React.Component {
     this.state = {
       source1: { source: 'loading...' }
     };
-    this.responseGoogle = this.responseGoogle.bind(this);
+    this.successGoogleLogin = this.successGoogleLogin.bind(this);
   }
 
   componentWillMount() {
@@ -29,8 +29,8 @@ export default class Layout extends React.Component {
     });
   }
 
-  responseGoogle = (response) => {
-    console.log(response.profileObj.email);
+  successGoogleLogin = (response) => {
+
   }
 
   render() {
@@ -42,12 +42,13 @@ export default class Layout extends React.Component {
             <GoogleLogin className="pull-right"
               clientId="612880892062-b1up84kvbqgnh2mt5vjlh1cqb4554ult.apps.googleusercontent.com"
               buttonText="Login"
-              onSuccess={this.responseGoogle}
+              onSuccess={this.successGoogleLogin}
               onFailure={this.responseGoogle} />
           </div>
 
           <div id="news-banner">
-            <h2>Get upto date news from reliable sources around the world.</h2>
+            <h1 className="text-center">
+              Get upto date news from reliable sources around the world.</h1>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 #app {
-  background: #9b9a9a; }
+  background: #e9e9e6; }
 
 #site-name {
   font-size: 25px; }
@@ -18,7 +18,10 @@
     padding: 20px 15px 10px; }
 
 #news-banner {
-  min-height: 170px; }
+  min-height: 170px;
+  background: url("/images/worldnews.jpg"); }
+  #news-banner h1 {
+    line-height: 170px; }
 
 #news-headline {
   background: #eeeeee; }
@@ -49,3 +52,5 @@
 #news-header {
   background-color: #d69725;
   min-height: 35px; }
+  #news-header button {
+    min-height: 35px; }

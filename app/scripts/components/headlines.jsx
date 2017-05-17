@@ -1,11 +1,13 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import * as ApiActions from './actions/apiActions';
 
 class Headline extends React.Component {
   constructor(props) {
     super(props);
     this.getHeadlineFilter = this.getHeadlineFilter.bind(this);
+    this.shouldRenderLatest = false;
+    this.shouldRenderPopular = false;
   }
 
   getHeadlineFilter(e) {

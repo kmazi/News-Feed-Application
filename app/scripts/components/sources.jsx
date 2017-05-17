@@ -26,7 +26,7 @@ class Source extends React.Component {
         ids: sourcelist
       });
 
-      ApiDataStore.on('change', () => {
+      ApiDataStore.on('click', () => {
         this.nsourcelist = ApiDataStore.sourcelist;
         if (this.nsourcelist !== []) {
           this.setState({ source: this.nsourcelist });

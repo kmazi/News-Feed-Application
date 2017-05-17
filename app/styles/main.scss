@@ -2,9 +2,10 @@ $header-color: #d69725;
 $news-bkgcolor: rgb(238, 238, 238);
 $news-cont-bkg: #e2dcd0;
 $big-font: 25px;
+$minheight: 35px;
 
 #app{
-  background: #9b9a9a;
+  background: #e9e9e6;
 }
 #site-name{
   font-size: $big-font;
@@ -25,6 +26,11 @@ $big-font: 25px;
 }
 #news-banner{
   min-height: 170px;
+  background: url("/images/worldnews.jpg");
+
+  h1{
+    line-height: 170px;
+  }
 }
 #news-headline{
   background: $news-bkgcolor;
@@ -67,5 +73,9 @@ $big-font: 25px;
 }
 #news-header{
   background-color: $header-color;
-  min-height: 35px;
+  min-height: $minheight;
+
+  button{
+    min-height: $minheight
+  }
 }

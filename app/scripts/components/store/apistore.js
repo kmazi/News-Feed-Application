@@ -30,7 +30,7 @@ class ApiDataStore extends EventEmitter {
       }
     });
     this.sourcelist = list;
-    this.emit('change');
+    this.emit('click');
   }
 
   handleAllActions(action) {
