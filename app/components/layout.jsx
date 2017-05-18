@@ -2,8 +2,8 @@ import React from 'react';
 import jquery from 'jquery';
 import GoogleLogin from 'react-google-login';
 import ApiDataStore from './../store/apistore';
-import Headline from './headlines';
-import Source from './sources';
+import Headline from './headlines.jsx';
+import Source from './sources.jsx';
 import './../../app/styles/main.scss';
 
 export default class Layout extends React.Component {
@@ -24,13 +24,13 @@ export default class Layout extends React.Component {
       this.setState({ sourceFeed: res });
     });
 
-    ApiDataStore.on('change', () => {
-      this.setState({ sourceFeed: ApiDataStore.headlines });
+    ApiDataStore.on('click', () => {
+      this.setState({ sourceFeed: ApiDataStore.articles });
     });
   }
 
   successGoogleLogin = (response) => {
-    
+
   }
 
   render() {

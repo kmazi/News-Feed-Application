@@ -10,44 +10,44 @@ class ApiDataStore extends EventEmitter {
    */
   constructor() {
     super();
-    this.headlines = {};
+    this.articles = {};
     this.sourcelist = [];
   }
 /**
- * Sets the headlines property when a source is selected
+ * Sets the articles property when a source is selected
  * @param {object} data - An object from the news API source used to
- * set the headlines property
+ * set the articles property
  */
   setArticleData(data) {
-    this.headlines = data;
-    this.emit('change');
+    this.articles = data;
+    this.emit('click');
   }
 /**
- * Sets the headlines property when filterting the news source
+ * Sets the articles property when filterting the news source
  * @param {object} data - An object used to set the headline property
  */
   setFilteredArticle(data) {
     if (typeof data !== 'object') {
       alert(data);
     } else {
-      this.headlines = data;
-      this.emit('change');
+      this.articles = data;
+      this.emit('click');
     }
   }
 /**
  * Searches through an array for occurences of a substring
  * @param {string} data - The substring to search for
- * @param {string} source - An array containing objects to search through
+ * @param {string} sources - An array containing objects to search through
  */
-  searchSources(data, source) {
+  searchSources(data, sources) {
     const list = [];
-    source.forEach((element) => {
-      if (element.id.includes(data)) {
-        list.push(element);
+    sources.forEach((source) => {
+      if (source.id.includes(data)) {
+        list.push(source);
       }
     });
     this.sourcelist = list;
-    this.emit('click');
+    this.emit('change');
   }
 /**
  * Executes functions in the store conditionally
@@ -56,16 +56,16 @@ class ApiDataStore extends EventEmitter {
  */
   handleAllActions(action) {
     switch (action.type) {
-    case 'GET_API_HEADLINES': {
-      this.setArticleData(action.headlines);
+    case 'GET_API_ARTICLES': {
+      this.setArticleData(action.articles);
       break;
     }
-    case 'GET_API_FILTERED_HEADLINES': {
-      this.setFilteredArticle(action.headlines);
+    case 'GET_API_FILTERED_ARTICLES': {
+      this.setFilteredArticle(action.articles);
       break;
     }
     case 'SEARCH_THROUGH_SOURCES': {
-      this.searchSources(action.data, action.source);
+      this.searchSources(action.inputText, action.source);
       break;
     }
     default:

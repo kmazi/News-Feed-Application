@@ -10,9 +10,9 @@ class Headline extends React.Component {
     this.shouldRenderPopular = false;
   }
 
-  getHeadlineFilter(e) {
-    e.preventDefault();
-    ApiActions.getApiFilteredData(e);
+  getHeadlineFilter(event) {
+    event.preventDefault();
+    ApiActions.getApiFilteredData(event.target);
   }
 
   renderArticles() {

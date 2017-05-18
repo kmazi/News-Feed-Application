@@ -9,7 +9,7 @@ class Source extends React.Component {
     super(props);
     this.state = { source: [{ id: 'loading...' }], ids: [] };
     this.nsourcelist = [];
-    this.getHeadlineData = this.getHeadlineData.bind(this);
+    this.getArticles = this.getArticles.bind(this);
     this.searchSource = this.searchSource.bind(this);
   }
 
@@ -26,7 +26,7 @@ class Source extends React.Component {
         ids: sourcelist
       });
 
-      ApiDataStore.on('click', () => {
+      ApiDataStore.on('change', () => {
         this.nsourcelist = ApiDataStore.sourcelist;
         if (this.nsourcelist !== []) {
           this.setState({ source: this.nsourcelist });
@@ -37,14 +37,14 @@ class Source extends React.Component {
     });
   }
 
-  getHeadlineData(e) {
-    e.preventDefault();
-    ApiActions.getApiData(e);
+  getArticles(event) {
+    event.preventDefault();
+    ApiActions.getArticlesFromApi(event.target.getAttribute('value'));
   }
 
-  searchSource(e) {
+  searchSource(event) {
     const sources = this.state.ids;
-    ApiActions.searchThroughSources(e.target.value, sources);
+    ApiActions.searchThroughSources(event.target.value, sources);
   }
 
   render() {
@@ -56,7 +56,7 @@ class Source extends React.Component {
       apisource = this.state.source.map((data, i) => {
         return (<div key={i}>
           <a className="" href="#" value={data.id}
-            onClick={this.getHeadlineData}>
+            onClick={this.getArticles}>
             {data.name}</a>
         </div>);
       });

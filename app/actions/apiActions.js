@@ -3,9 +3,12 @@ import dispatcher from '../dispatcher';
 
 const url = 'https://newsapi.org/v1/articles';
 const key = '213327409d384371851777e7c7f78dfe';
-
-export function getApiData(source) {
-  const src = source.target.getAttribute('value');
+/**
+ * 
+ * @param {*} source - 
+ */
+export function getArticlesFromApi(sourceId) {
+  const src = sourceId;
   const data = { source: src, apiKey: key };
 
   jquery.ajax({
@@ -14,25 +17,25 @@ export function getApiData(source) {
     success: (res) => {
       dispatcher.dispatch(
         {
-          type: 'GET_API_HEADLINES',
-          headlines: res
+          type: 'GET_API_ARTICLES',
+          articles: res
         }
       );
     },
     error() {
       dispatcher.dispatch(
         {
-          type: 'GET_API_HEADLINES',
-          headlines: 'Error in loading headlines'
+          type: 'GET_API_ARTICLES',
+          articles: 'Error in loading articles'
         }
       );
     }
   });
 }
 
-export function getApiFilteredData(e) {
-  const src = e.target.getAttribute('data-filter');
-  const filter = e.target.getAttribute('value');
+export function getApiFilteredData(target) {
+  const src = target.getAttribute('data-filter');
+  const filter = target.getAttribute('value');
   const data = { apiKey: key, source: src, sortBy: filter };
 
   jquery.ajax({
@@ -41,17 +44,17 @@ export function getApiFilteredData(e) {
     success: (res) => {
       dispatcher.dispatch(
         {
-          type: 'GET_API_FILTERED_HEADLINES',
-          headlines: res
+          type: 'GET_API_FILTERED_ARTICLES',
+          articles: res
         }
       );
     },
     error() {
       dispatcher.dispatch(
         {
-          type: 'GET_API_FILTERED_HEADLINES',
-          headlines: `Error in loading headlines: ${
-            filter} headlines aren't available`
+          type: 'GET_API_FILTERED_ARTICLES',
+          articles: `Error in loading articles: ${
+            filter} articles aren't available`
         }
       );
     }
@@ -59,13 +62,13 @@ export function getApiFilteredData(e) {
 }
 /**
  * Dispatches the function to search through the news api sources
- * @param {*} e 
- * @param {*} sources 
+ * @param {string} substring - The input substring to search for in the sources ids
+ * @param {object} sources - The list of sources to search through
  */
-export function searchThroughSources(e, sources) {
+export function searchThroughSources(substring, sources) {
   dispatcher.dispatch({
     type: 'SEARCH_THROUGH_SOURCES',
-    data: e,
+    inputText: substring,
     source: sources
   });
 }
