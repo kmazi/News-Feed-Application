@@ -8,13 +8,13 @@ class ApiDataStore extends EventEmitter {
     this.sourcelist = [];
   }
 
-  getArticleData(data) {
+  setArticleData(data) {
     this.headlines = data;
     this.emit('change');
   }
 
-  getArticleFilteredData(data) {
-    if (typeof data === 'string') {
+  setFilteredArticle(data) {
+    if (typeof data !== 'object') {
       alert(data);
     } else {
       this.headlines = data;
@@ -36,11 +36,11 @@ class ApiDataStore extends EventEmitter {
   handleAllActions(action) {
     switch (action.type) {
       case 'GET_API_ARTICLE': {
-        this.getArticleData(action.headlines);
+        this.setArticleData(action.headlines);
         break;
       }
       case 'GET_API_FILTERED_ARTICLE': {
-        this.getArticleFilteredData(action.headlines);
+        this.setFilteredArticle(action.headlines);
         break;
       }
       case 'SEARCH_THROUGH_SOURCES': {

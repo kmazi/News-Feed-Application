@@ -19,7 +19,7 @@
 
 #news-banner {
   min-height: 170px;
-  background: url("/images/worldnews.jpg"); }
+  background: url(/styles/images/worldnews.jpg); }
   #news-banner h1 {
     line-height: 170px; }
 

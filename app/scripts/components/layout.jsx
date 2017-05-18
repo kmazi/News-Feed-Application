@@ -10,27 +10,27 @@ export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      source1: { source: 'loading...' }
+      sourceFeed: { source: 'loading...' }
     };
     this.successGoogleLogin = this.successGoogleLogin.bind(this);
   }
 
   componentWillMount() {
-    const url1 = 'https://newsapi.org/v1/articles';
+    const articleUrl = 'https://newsapi.org/v1/articles';
     const key = '213327409d384371851777e7c7f78dfe';
     const apiData = { source: 'cnn', apiKey: key };
 
-    jquery.get(url1, apiData, (res) => {
-      this.setState({ source1: res });
+    jquery.get(articleUrl, apiData, (res) => {
+      this.setState({ sourceFeed: res });
     });
 
     ApiDataStore.on('change', () => {
-      this.setState({ source1: ApiDataStore.headlines });
+      this.setState({ sourceFeed: ApiDataStore.headlines });
     });
   }
 
   successGoogleLogin = (response) => {
-
+    
   }
 
   render() {
@@ -55,8 +55,8 @@ export default class Layout extends React.Component {
         <div className="container">
           <div className="row">
             <Source />
-            <Headline data={this.state.source1}
-              filter={this.state.source1.source} />
+            <Headline data={this.state.sourceFeed}
+              filter={this.state.sourceFeed.source} />
           </div>
         </div>
 
