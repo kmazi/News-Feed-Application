@@ -14,7 +14,7 @@ export function getApiData(source) {
     success: (res) => {
       dispatcher.dispatch(
         {
-          type: 'GET_API_ARTICLE',
+          type: 'GET_API_HEADLINES',
           headlines: res
         }
       );
@@ -22,7 +22,7 @@ export function getApiData(source) {
     error() {
       dispatcher.dispatch(
         {
-          type: 'GET_API_ARTICLE',
+          type: 'GET_API_HEADLINES',
           headlines: 'Error in loading headlines'
         }
       );
@@ -41,7 +41,7 @@ export function getApiFilteredData(e) {
     success: (res) => {
       dispatcher.dispatch(
         {
-          type: 'GET_API_FILTERED_ARTICLE',
+          type: 'GET_API_FILTERED_HEADLINES',
           headlines: res
         }
       );
@@ -49,15 +49,19 @@ export function getApiFilteredData(e) {
     error() {
       dispatcher.dispatch(
         {
-          type: 'GET_API_FILTERED_ARTICLE',
-          headlines: 'Error in loading headlines: ' +
-            filter + ' headlines aren\'t available'
+          type: 'GET_API_FILTERED_HEADLINES',
+          headlines: `Error in loading headlines: ${
+            filter} headlines aren't available`
         }
       );
     }
   });
 }
-
+/**
+ * Dispatches the function to search through the news api sources
+ * @param {*} e 
+ * @param {*} sources 
+ */
 export function searchThroughSources(e, sources) {
   dispatcher.dispatch({
     type: 'SEARCH_THROUGH_SOURCES',

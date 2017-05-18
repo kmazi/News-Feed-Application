@@ -1,4 +1,4 @@
-// const Dotenv = require('dotenv-webpack');
+const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
@@ -76,11 +76,11 @@ module.exports = {
       jQuery: 'jquery',
       'window.$': 'jquery',
       'window.jQuery': 'jquery',
+    }),
+    new Dotenv({
+      path: './.env',
+      safe: false,
     })
-    // new Dotenv({
-    //   path: '.env',
-    //   safe: true,
-    // })
   ] : [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -92,9 +92,9 @@ module.exports = {
       'window.$': 'jquery',
       'window.jQuery': 'jquery',
     }),
-    // new Dotenv({
-    //   path: './.env',
-    //   safe: true,
-    // }),
+    new Dotenv({
+      path: '.env',
+      safe: false,
+    })
   ],
 };

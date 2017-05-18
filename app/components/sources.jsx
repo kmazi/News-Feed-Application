@@ -1,8 +1,8 @@
 import React from 'react';
 import jquery from 'jquery';
-import * as ApiActions from './actions/apiActions';
-import ApiDataStore from './store/apistore';
-import '../../styles/main.scss';
+import * as ApiActions from './../actions/apiActions';
+import ApiDataStore from './../store/apistore';
+import './../../app/styles/main.scss';
 
 class Source extends React.Component {
   constructor(props) {

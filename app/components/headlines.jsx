@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as ApiActions from './actions/apiActions';
+import * as ApiActions from './../actions/apiActions';
 
 class Headline extends React.Component {
   constructor(props) {

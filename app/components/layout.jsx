@@ -1,10 +1,10 @@
 import React from 'react';
 import jquery from 'jquery';
 import GoogleLogin from 'react-google-login';
-import ApiDataStore from './store/apistore';
+import ApiDataStore from './../store/apistore';
 import Headline from './headlines';
 import Source from './sources';
-import '../../styles/main.scss';
+import './../../app/styles/main.scss';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ export default class Layout extends React.Component {
           <div id="news-header">
             <div id="site-name" className="pull-left">iNews</div>
             <GoogleLogin className="pull-right"
-              clientId="612880892062-b1up84kvbqgnh2mt5vjlh1cqb4554ult.apps.googleusercontent.com"
+              clientId={process.env.GOOGLE_CLIENT_KEY}
               buttonText="Login"
               onSuccess={this.successGoogleLogin}
               onFailure={this.responseGoogle} />
