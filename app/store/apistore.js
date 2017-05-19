@@ -49,6 +49,12 @@ class ApiDataStore extends EventEmitter {
     this.sourcelist = list;
     this.emit('change');
   }
+
+  signInUser(name, email, id) {
+    if(typeof name !== 'string' || typeof email !== 'string' || typeof id !== 'number'){
+      
+    }
+  }
 /**
  * Executes functions in the store conditionally
  * @param {object} action - An object containing information
