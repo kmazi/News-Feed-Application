@@ -1,6 +1,7 @@
 import React from 'react';
 import jquery from 'jquery';
 import GoogleLogin from 'react-google-login';
+import * as ApiActions from './../actions/apiActions';
 import ApiDataStore from './../store/apistore';
 import Headline from './headlines.jsx';
 import Source from './sources.jsx';
@@ -29,7 +30,11 @@ export default class Layout extends React.Component {
   }
 
   successGoogleLogin = (response) => {
-
+    const userInfo = response.profileObj,
+      userName = userInfo.familyName,
+      userEmail = userInfo.email,
+      userId = userInfo.googleId;
+    ApiActions.signInUser(userName, userEmail, userId);
   }
 
   render() {

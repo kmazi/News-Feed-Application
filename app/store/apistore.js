@@ -68,6 +68,10 @@ class ApiDataStore extends EventEmitter {
       this.searchSources(action.inputText, action.source);
       break;
     }
+    case 'SIGN_IN_USER': {
+      this.signInUser(action.user.name, action.user.email, action.user.id);
+      break;
+    }
     default:
     }
   }
