@@ -9,7 +9,7 @@ A news feed front end application that enables users get current news from popul
 Use this application to get news articles from multiple sources via http://newsapi.org/v1/articles.
 You can filter through the articles by clicking on the lastest, popular or top buttons.
 
-#Design
+# Design
 The project relies on reactjs components to implement a single page frontend application. The flux architecture has been implemented- component, action, dispatcher and store workflow.
 
 # Installation
