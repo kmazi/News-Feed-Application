@@ -16,18 +16,13 @@ class Headline extends React.Component {
   }
 
   renderArticles() {
-    const imagesize = {
-      maxHeight: 300,
-      maxWidth: '100%'
-    };
-
     const data = this.props.data;
     if (data.source !== 'loading...') {
       const headlineData = data.articles.map((obj, i) => {
         return (
           <div key={i} data-content="news" className="row">
             <div className="col-md-5">
-              <img style={imagesize} src={obj.urlToImage} />
+              <img src={obj.urlToImage} />
             </div>
             <div className="col-md-7">
               <h4 className="text-center"> {obj.title}</h4>

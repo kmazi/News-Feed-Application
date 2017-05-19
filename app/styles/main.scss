@@ -1,39 +1,61 @@
 $header-color: #d69725;
+$headline-color: #1F1F1F;
+$header-bkg-image: linear-gradient(#d69725,#DC9C25,#CE9223);
 $news-bkgcolor: rgb(238, 238, 238);
 $news-cont-bkg: #e2dcd0;
 $big-font: 25px;
 $minheight: 35px;
+$margin-from-edge: 55px;
 
 #app{
   background: #e9e9e6;
 }
+h3, h4{
+  color: $headline-color;
+}
 #site-name{
   font-size: $big-font;
+  padding-left: $margin-from-edge;
 }
 #news-source{
   background: $news-cont-bkg;
+  border-right: 10px solid #e9e9e9;
 }
 #news-source>div{
   padding: 5px 15px;
 }
+img{
+  max-height: 350;
+  max-width: 100%;
+}
 #news-source.col-md-3{
   padding: 0;
   h3{
-    background: $header-color;
+    background: $header-color $header-bkg-image;
     margin: 0;
     padding: 20px 15px 10px;
   }
 }
 #news-banner{
-  min-height: 170px;
+  min-height: 270px;
   background: url(/styles/images/worldnews.jpg);
 
   h1{
-    line-height: 170px;
+    margin: 0;
+    padding: 70px 20px;
+    -webkit-text-stroke: 1px $header-color;
+   color: white;
+   text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
   }
 }
 #news-headline{
   background: $news-bkgcolor;
+  overflow: scroll;
   h3{
     padding-left: 15px;
   }
@@ -41,9 +63,9 @@ $minheight: 35px;
     padding-right: 15px;
   }
   [data-content=news-header]{
-    background: $header-color;
+    background: $header-color $header-bkg-image;
     button{
-      margin-right:3px;
+      margin-right: 3px;
     }
   }
   div[data-content=news]{
@@ -57,7 +79,7 @@ $minheight: 35px;
 
     h4{
       margin-top:0;
-      background: $header-color;
+      background: $header-color $header-bkg-image;
       padding: 5px;
       font-size: 20px;
     }
@@ -72,10 +94,25 @@ $minheight: 35px;
   }
 }
 #news-header{
-  background-color: $header-color;
+  background-color: $header-color $header-bkg-image;
   min-height: $minheight;
 
   button{
-    min-height: $minheight
+    height: $minheight;
+    margin-right: $margin-from-edge;
+  }
+}
+footer{
+  min-height: $minheight;
+  background: $headline-color;
+  color: $news-bkgcolor;
+  padding: 10px 10px;
+}
+
+@media screen and (max-width: 600px) {
+  #news-source>div{
+    max-height: 200px;
+    overflow: scroll;
+    margin-bottom: 15px;
   }
 }

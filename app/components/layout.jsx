@@ -16,7 +16,7 @@ export default class Layout extends React.Component {
 
   componentWillMount() {
     const articleUrl = 'https://newsapi.org/v1/articles';
-    const key = '213327409d384371851777e7c7f78dfe';
+    const key = process.env.NEWS_API_KEY;
     const apiData = { source: 'cnn', apiKey: key };
 
     jquery.get(articleUrl, apiData, (res) => {
@@ -38,16 +38,16 @@ export default class Layout extends React.Component {
         <div className="row">
           <div id="news-header">
             <div id="site-name" className="pull-left">iNews</div>
-            <GoogleLogin className="pull-right"
+            <GoogleLogin className="pull-right btn btn-default btn-primary"
               clientId={process.env.GOOGLE_CLIENT_KEY}
-              buttonText="Login"
+              buttonText="Google+ Login"
               onSuccess={this.successGoogleLogin}
               onFailure={this.responseGoogle} />
           </div>
 
           <div id="news-banner">
             <h1 className="text-center">
-              Get upto date news from reliable sources around the world.</h1>
+              Get updated news from over 70 reliable sources<br/> around the world.</h1>
           </div>
         </div>
 
@@ -58,6 +58,10 @@ export default class Layout extends React.Component {
               filter={this.state.sourceFeed.source} />
           </div>
         </div>
+
+        <footer>
+          <span>iNews &copy;2017</span>
+        </footer>
 
       </div>
     );

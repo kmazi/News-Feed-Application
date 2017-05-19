@@ -1,36 +1,50 @@
 #app {
   background: #e9e9e6; }
 
+h3, h4 {
+  color: #1F1F1F; }
+
 #site-name {
-  font-size: 25px; }
+  font-size: 25px;
+  padding-left: 55px; }
 
 #news-source {
-  background: #e2dcd0; }
+  background: #e2dcd0;
+  border-right: 10px solid #e9e9e9; }
 
 #news-source > div {
   padding: 5px 15px; }
 
+img {
+  max-height: 350;
+  max-width: 100%; }
+
 #news-source.col-md-3 {
   padding: 0; }
   #news-source.col-md-3 h3 {
-    background: #d69725;
+    background: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223);
     margin: 0;
     padding: 20px 15px 10px; }
 
 #news-banner {
-  min-height: 170px;
+  min-height: 270px;
   background: url(/styles/images/worldnews.jpg); }
   #news-banner h1 {
-    line-height: 170px; }
+    margin: 0;
+    padding: 70px 20px;
+    -webkit-text-stroke: 1px #d69725;
+    color: white;
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000,   1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; }
 
 #news-headline {
-  background: #eeeeee; }
+  background: #eeeeee;
+  overflow: scroll; }
   #news-headline h3 {
     padding-left: 15px; }
   #news-headline div.pull-right {
     padding-right: 15px; }
   #news-headline [data-content=news-header] {
-    background: #d69725; }
+    background: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223); }
     #news-headline [data-content=news-header] button {
       margin-right: 3px; }
   #news-headline div[data-content=news] {
@@ -41,7 +55,7 @@
       font-size: 14px; }
     #news-headline div[data-content=news] h4 {
       margin-top: 0;
-      background: #d69725;
+      background: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223);
       padding: 5px;
       font-size: 20px; }
     #news-headline div[data-content=news] .col-md-5 {
@@ -50,7 +64,20 @@
       padding-right: 0; }
 
 #news-header {
-  background-color: #d69725;
+  background-color: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223);
   min-height: 35px; }
   #news-header button {
-    min-height: 35px; }
+    height: 35px;
+    margin-right: 55px; }
+
+footer {
+  min-height: 35px;
+  background: #1F1F1F;
+  color: #eeeeee;
+  padding: 10px 10px; }
+
+@media screen and (max-width: 600px) {
+  #news-source > div {
+    max-height: 200px;
+    overflow: scroll;
+    margin-bottom: 15px; } }
