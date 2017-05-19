@@ -4,7 +4,6 @@ import GoogleLogin from 'react-google-login';
 import ApiDataStore from './../store/apistore';
 import Headline from './headlines.jsx';
 import Source from './sources.jsx';
-import './../../app/styles/main.scss';
 
 export default class Layout extends React.Component {
   constructor(props) {

@@ -2,7 +2,7 @@
   "name": "newsfeedapplication",
   "version": "1.0.0",
   "description": "An application that gets news feed from variety of news channels.",
-  "main": "scripts.jsx",
+  "main": "server.js",
   "dependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.24.1",
@@ -18,13 +18,14 @@
     "css-loader": "^0.28.1",
     "dotenv": "^4.0.0",
     "dotenv-webpack": "^1.4.5",
-    "express": "^4.15.2",
+    "express": "^4.15.3",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "flux": "^3.1.2",
     "history": "^1.17.0",
     "jquery": "^3.2.1",
     "node-sass": "^4.5.2",
+    "opn": "^5.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -50,7 +51,8 @@
   },
   "scripts": {
     "build": "webpack -d --watch --display-error-details",
-    "test": "jest",
+    "test": "jest --coverage",
+    "start": "node server.js",
     "dev": "webpack-dev-server --content-base app --inline --hot"
   },
   "repository": {
