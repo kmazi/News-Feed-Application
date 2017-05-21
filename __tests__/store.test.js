@@ -78,41 +78,41 @@ describe('The setFilteredArticle function', () => {
 describe('The searchSources function', () => {
   it('should always return an object', () => {
     Store.searchSources('e', testData);
-    expect(Store.sourcelist).toEqual(testData);
+    expect(Store.matchedSourceList).toEqual(testData);
   });
 
   it('should return an object in which the id property is abc-news-au', () => {
-    Store.sourcelist = [];
+    Store.matchedSourceList = [];
     Store.searchSources('au', testData);
-    expect(Store.sourcelist[0].id).toBe('abc-news-au');
+    expect(Store.matchedSourceList[0].id).toBe('abc-news-au');
   });
 
   it('should contain only one object', () => {
-    Store.sourcelist = [];
+    Store.matchedSourceList = [];
     Store.searchSources('au', testData);
-    expect(Store.sourcelist.length).not.toBe(2);
+    expect(Store.matchedSourceList.length).not.toBe(2);
   });
 
   it('should return all objects passed when no search string was typed', () => {
-    Store.sourcelist = [];
+    Store.matchedSourceList = [];
     Store.searchSources('', testData);
-    expect(Store.sourcelist.length).toBe(2);
+    expect(Store.matchedSourceList.length).toBe(2);
   });
 });
 
 describe('The handleAllActions function', () => {
   it('should execute the searchSources function', () => {
     action.type = 'SEARCH_THROUGH_SOURCES';
-    Store.sourcelist = [];
+    Store.matchedSourceList = [];
     Store.handleAllActions(action);
-    expect(Store.sourcelist.length).toBe(2);
+    expect(Store.matchedSourceList.length).toBe(2);
   });
 
   it('should not execute the searchSource function', () => {
     action.type = 'SEARCH_THROUGH_SOURCE';
-    Store.sourcelist = [];
+    Store.matchedSourceList = [];
     Store.handleAllActions(action);
-    expect(Store.sourcelist.length).not.toBe(2);
+    expect(Store.matchedSourceList.length).not.toBe(2);
   });
 
   it('should execute the setArticleData function', () => {
@@ -146,8 +146,8 @@ describe('The handleAllActions function', () => {
 
   it('should execute the right function', () => {
     action.type = 'GET_API_FILTERED_ARTICLE';
-    Store.sourcelist = [];
+    Store.matchedSourceList = [];
     Store.handleAllActions(action);
-    expect(Store.sourcelist.length).toBeLessThanOrEqual(0);
+    expect(Store.matchedSourceList.length).toBeLessThanOrEqual(0);
   });
 });

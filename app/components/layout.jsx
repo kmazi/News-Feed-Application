@@ -20,9 +20,9 @@ export default class Layout extends React.Component {
 // Render the general layout
   render() {
     const minHeight = {
-      minHeight: window.document.innerHeight };
+      minHeight: window.innerHeight - 342 };
     return (
-      <div style={minHeight}>
+      <div>
         <div className="row">
           <div id="news-header">
             <div id="site-name" className="pull-left">infoconnect</div>
@@ -40,7 +40,7 @@ export default class Layout extends React.Component {
           </div>
         </div>
 
-        <div className="container">
+        <div className="container" style={minHeight}>
           <div className="row">
             <Source />
             <Article />

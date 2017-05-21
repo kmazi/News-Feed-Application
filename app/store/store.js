@@ -11,7 +11,7 @@ class Store extends EventEmitter {
   constructor() {
     super();
     this.articles = {};
-    this.sourcelist = [];
+    this.matchedSourceList = [];
     this.isAuthenticated = false;
   }
 /**
@@ -42,12 +42,16 @@ class Store extends EventEmitter {
  */
   searchSources(searchText, sources) {
     const list = [];
+    // loop through the sources while searching for a match
     sources.forEach((source) => {
       if (source.id.includes(searchText)) {
         list.push(source);
       }
     });
-    this.sourcelist = list;
+// check if there has been a match before setting matchedsourcelist
+    this.matchedSourceList = list.length === 0 ?
+    `${searchText} couldn't be found` :
+    list;
     this.emit('change');
   }
 
@@ -70,7 +74,7 @@ class Store extends EventEmitter {
       break;
     }
     case 'SEARCH_THROUGH_SOURCES': {
-      this.searchSources(action.inputText, action.source);
+      this.searchSources(action.inputText, action.allSources);
       break;
     }
     case 'SIGN_IN_USER': {

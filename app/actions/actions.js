@@ -74,7 +74,7 @@ export function searchThroughSources(substring, sources) {
   dispatcher.dispatch({
     type: 'SEARCH_THROUGH_SOURCES',
     inputText: substring,
-    source: sources
+    allSources: sources
   });
 }
 /**

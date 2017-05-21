@@ -4,13 +4,15 @@ import * as ApiActions from './../actions/actions';
 import Store from './../store/store';
 
 class Source extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { source: [{ id: 'loading...' }], ids: [] };
-    this.nsourcelist = [];
+  constructor() {
+    super();
+    this.state = {
+      atStart: 'loading...',
+      sources: [] };
+    this.matchedSources = [];
 
     this.getArticles = this.getArticles.bind(this);
-    this.searchSource = this.searchSource.bind(this);
+    this.searchSources = this.searchSources.bind(this);
   }
 
   componentWillMount() {
@@ -19,24 +21,20 @@ class Source extends React.Component {
     jquery.get(url, (response) => {
       // return an array of objects containing news source
       // id and name
-      const sourcelist = response.sources.map((d) => {
-        return { id: d.id, name: d.name };
+      const sourcesArray = response.sources.map((source) => {
+        return { id: source.id, name: source.name };
       });
-
+// change the state of the component
       this.setState({
-        source: response.status === 'ok' ?
-          response.sources : [{ id: 'Sources are unavailable' }],
-        ids: sourcelist
+        sources: response.status === 'ok' ?
+        sourcesArray : 'Sources are unavailable'
       });
-
-      Store.on('change', () => {
-        this.nsourcelist = Store.sourcelist;
-        if (this.nsourcelist !== []) {
-          this.setState({ source: this.nsourcelist });
-        } else {
-          this.setState({ source: this.state.ids });
-        }
-      });
+    });
+// listening for change event from the store ie when
+// a link is clicked and the source changes
+    Store.on('change', () => {
+      this.matchedSources = Store.matchedSourceList;
+      this.setState({ source: this.matchedSources });
     });
   }
 
@@ -45,24 +43,34 @@ class Source extends React.Component {
     ApiActions.getArticlesFromApi(event.target.getAttribute('value'));
   }
 
-  searchSource(event) {
-    const sources = this.state.ids;
-    ApiActions.searchThroughSources(event.target.value, sources);
+  searchSources(event) {
+    ApiActions.searchThroughSources(event.target.value, this.state.sources);
   }
 
   render() {
-    let apisource = this.state.source[0].id;
-    if (this.state.source[0].id === 'loading...' ||
-      this.state.source[0].id === 'Sources are unavailable') {
-      apisource = <a href="#">{this.state.source[0].id}</a>;
-    } else {
-      apisource = this.state.source.map((data, i) => {
-        return (<div key={i}>
+    const sources = this.state.sources;
+    let loadedSources = null;
+    const matchedSources = this.matchedSources;
+    const finalSource = matchedSources.length === 0 ?
+    sources : matchedSources;
+
+// display the sources when loaded from newsapi.org
+    if (finalSource.length > 0) {
+      // check if there wasn't any match after search
+      if (typeof finalSource === 'string') {
+        loadedSources = <h4>{finalSource}</h4>;
+      } else {
+        // map the sources since there were matches
+        loadedSources = finalSource.map((data, i) => {
+          return (<div key={i}>
           <a className="" href="#" value={data.id}
             onClick={this.getArticles}>
             {data.name}</a>
         </div>);
-      });
+        });
+      }
+    } else {
+      loadedSources = <h4>{this.state.atStart}</h4>;
     }
 
     return (
@@ -70,8 +78,8 @@ class Source extends React.Component {
         <h3 className="">News Channels</h3>
         <div>
           <input className="form-control" placeholder="search news sources"
-            onChange={this.searchSource} />
-          {apisource}
+            onChange={this.searchSources} />
+          {loadedSources}
         </div>
       </div>
     );
