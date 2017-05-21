@@ -1,32 +1,36 @@
 import jquery from 'jquery';
 import dispatcher from '../dispatcher';
 
-const url = 'https://newsapi.org/v1/articles';
+const articleUrl = 'https://newsapi.org/v1/articles';
 const key = process.env.NEWS_API_KEY;
+const errorMessage = 'Error in loading articles';
 /**
  * Connects to the api and get articles from the given source
  * @param {string} sourceId - The id of the source from the newsapi
+ * @param {string} sourceName - The name of the source
  */
-export function getArticlesFromApi(sourceId) {
+export function getArticlesFromApi(sourceId, sourceName) {
   const src = sourceId;
   const apiParam = { source: src, apiKey: key };
 
   jquery.ajax({
-    url,
-    apiParam,
+    url: articleUrl,
+    data: apiParam,
+    dataType: 'json',
     success: (res) => {
       dispatcher.dispatch(
         {
-          type: 'GET_API_ARTICLES',
-          articles: res
+          type: 'GET_ARTICLES_FROM_SOURCE',
+          articles: res.articles,
+          srcName: sourceName
         }
       );
     },
     error() {
       dispatcher.dispatch(
         {
-          type: 'GET_API_ARTICLES',
-          articles: 'Error in loading articles'
+          type: 'GET_ARTICLES_FROM_SOURCE',
+          articles: errorMessage
         }
       );
     }
@@ -43,8 +47,8 @@ export function getFilteredArticle(target) {
   const apiParam = { apiKey: key, source: src, sortBy: filter };
 
   jquery.ajax({
-    url,
-    apiParam,
+    url: articleUrl,
+    data: apiParam,
     success: (res) => {
       dispatcher.dispatch(
         {
@@ -57,8 +61,7 @@ export function getFilteredArticle(target) {
       dispatcher.dispatch(
         {
           type: 'GET_API_FILTERED_ARTICLES',
-          articles: `Error in loading articles: ${
-            filter} articles aren't available`
+          articles: errorMessage
         }
       );
     }

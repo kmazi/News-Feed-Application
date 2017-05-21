@@ -40,7 +40,9 @@ class Source extends React.Component {
 
   getArticles(event) {
     event.preventDefault();
-    ApiActions.getArticlesFromApi(event.target.getAttribute('value'));
+    const sourceName = jquery(event.target).text();
+    ApiActions.getArticlesFromApi(event.target.getAttribute('value'),
+    sourceName);
   }
 
   searchSources(event) {

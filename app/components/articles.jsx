@@ -6,7 +6,8 @@ class Article extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      articles: []
+      articles: [],
+      sourceName: 'from CNN'
     };
   }
 
@@ -20,7 +21,8 @@ class Article extends React.Component {
     });
 // listen for click event from the store
     Store.on('click', () => {
-      this.setState({ articles: Store.articles });
+      this.setState({ articles: Store.articles,
+        sourceName: ` from ${Store.sourceName}` });
     });
   }
 
@@ -57,7 +59,7 @@ class Article extends React.Component {
     return (
       <div className="col-md-9" id="news-headline">
         <div data-content="news-header" className="row">
-          <h3 className="pull-left">Headlines</h3>
+          <h3 className="pull-left">Headlines {this.state.sourceName}</h3>
         </div>
         <div>
           {this.renderArticles()}

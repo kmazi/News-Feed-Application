@@ -10,17 +10,20 @@ class Store extends EventEmitter {
    */
   constructor() {
     super();
-    this.articles = {};
+    this.articles = [];
+    this.sourceName = '';
     this.matchedSourceList = [];
     this.isAuthenticated = false;
   }
 /**
  * Sets the articles property when a source is selected
  * @param {object} articles - An object from the news API source used to
+ * @param {string} srcName - The source name of the article
  * set the articles property
  */
-  setArticleContent(articles) {
+  setArticleContent(articles, srcName) {
     this.articles = articles;
+    this.sourceName = srcName;
     this.emit('click');
   }
 /**
@@ -28,12 +31,8 @@ class Store extends EventEmitter {
  * @param {object} articles - An object used to set the headline property
  */
   setFilteredArticle(articles) {
-    if (typeof articles !== 'object') {
-
-    } else {
-      this.articles = articles;
-      this.emit('click');
-    }
+    this.articles = articles;
+    this.emit('click');
   }
 /**
  * Searches through an array for occurences of a substring
@@ -65,8 +64,8 @@ class Store extends EventEmitter {
  */
   handleAllActions(action) {
     switch (action.type) {
-    case 'GET_API_ARTICLES': {
-      this.setArticleContent(action.articles);
+    case 'GET_ARTICLES_FROM_SOURCE': {
+      this.setArticleContent(action.articles, action.srcName);
       break;
     }
     case 'GET_API_FILTERED_ARTICLES': {
