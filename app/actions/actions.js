@@ -2,18 +2,18 @@ import jquery from 'jquery';
 import dispatcher from '../dispatcher';
 
 const url = 'https://newsapi.org/v1/articles';
-const key = '213327409d384371851777e7c7f78dfe';
+const key = process.env.NEWS_API_KEY;
 /**
  * Connects to the api and get articles from the given source
  * @param {string} sourceId - The id of the source from the newsapi
  */
 export function getArticlesFromApi(sourceId) {
   const src = sourceId;
-  const data = { source: src, apiKey: key };
+  const apiParam = { source: src, apiKey: key };
 
   jquery.ajax({
     url,
-    data,
+    apiParam,
     success: (res) => {
       dispatcher.dispatch(
         {
@@ -32,15 +32,19 @@ export function getArticlesFromApi(sourceId) {
     }
   });
 }
-
-export function getApiFilteredData(target) {
+/**
+ * Connects to the news feed api and get articles filtered by
+ * @param {object} target - contains information about the element
+ *that fired this function
+ */
+export function getFilteredArticle(target) {
   const src = target.getAttribute('data-filter');
   const filter = target.getAttribute('value');
-  const data = { apiKey: key, source: src, sortBy: filter };
+  const apiParam = { apiKey: key, source: src, sortBy: filter };
 
   jquery.ajax({
     url,
-    data,
+    apiParam,
     success: (res) => {
       dispatcher.dispatch(
         {
@@ -62,7 +66,8 @@ export function getApiFilteredData(target) {
 }
 /**
  * Dispatches the function to search through the news api sources
- * @param {string} substring - The input substring to search for in the sources ids
+ * @param {string} substring - The input substring to search for in the
+ * sources ids
  * @param {object} sources - The list of sources to search through
  */
 export function searchThroughSources(substring, sources) {

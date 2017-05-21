@@ -3,7 +3,7 @@ import dispatcher from './../dispatcher';
 /**
  * Class representing the store for functions manipulating the news source feed.
  */
-class ApiDataStore extends EventEmitter {
+class Store extends EventEmitter {
   /**
    * Represents the store
    * @constructor
@@ -12,37 +12,38 @@ class ApiDataStore extends EventEmitter {
     super();
     this.articles = {};
     this.sourcelist = [];
+    this.isAuthenticated = false;
   }
 /**
  * Sets the articles property when a source is selected
- * @param {object} data - An object from the news API source used to
+ * @param {object} articles - An object from the news API source used to
  * set the articles property
  */
-  setArticleData(data) {
-    this.articles = data;
+  setArticleContent(articles) {
+    this.articles = articles;
     this.emit('click');
   }
 /**
  * Sets the articles property when filterting the news source
- * @param {object} data - An object used to set the headline property
+ * @param {object} articles - An object used to set the headline property
  */
-  setFilteredArticle(data) {
-    if (typeof data !== 'object') {
-      alert(data);
+  setFilteredArticle(articles) {
+    if (typeof articles !== 'object') {
+
     } else {
-      this.articles = data;
+      this.articles = articles;
       this.emit('click');
     }
   }
 /**
  * Searches through an array for occurences of a substring
- * @param {string} data - The substring to search for
+ * @param {string} searchText - The substring to search for
  * @param {string} sources - An array containing objects to search through
  */
-  searchSources(data, sources) {
+  searchSources(searchText, sources) {
     const list = [];
     sources.forEach((source) => {
-      if (source.id.includes(data)) {
+      if (source.id.includes(searchText)) {
         list.push(source);
       }
     });
@@ -51,9 +52,7 @@ class ApiDataStore extends EventEmitter {
   }
 
   signInUser(name, email, id) {
-    if(typeof name !== 'string' || typeof email !== 'string' || typeof id !== 'number'){
-      
-    }
+    this.isAuthenticated = true;
   }
 /**
  * Executes functions in the store conditionally
@@ -63,7 +62,7 @@ class ApiDataStore extends EventEmitter {
   handleAllActions(action) {
     switch (action.type) {
     case 'GET_API_ARTICLES': {
-      this.setArticleData(action.articles);
+      this.setArticleContent(action.articles);
       break;
     }
     case 'GET_API_FILTERED_ARTICLES': {
@@ -83,6 +82,6 @@ class ApiDataStore extends EventEmitter {
   }
 }
 
-const apidatastore = new ApiDataStore();
-dispatcher.register(apidatastore.handleAllActions.bind(apidatastore));
-export default apidatastore;
+const store = new Store();
+dispatcher.register(store.handleAllActions.bind(store));
+export default store;

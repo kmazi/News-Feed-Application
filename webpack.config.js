@@ -24,7 +24,8 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties'],
+          plugins: ['react-html-attrs', 'transform-decorators-legacy',
+            'transform-class-properties'],
         },
       },
       {
@@ -78,7 +79,7 @@ module.exports = {
       'window.jQuery': 'jquery',
     }),
     new Dotenv({
-      path: './.env',
+      path: '.env',
       safe: false,
     })
   ] : [

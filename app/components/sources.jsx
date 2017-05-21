@@ -1,32 +1,36 @@
 import React from 'react';
 import jquery from 'jquery';
-import * as ApiActions from './../actions/apiActions';
-import ApiDataStore from './../store/apistore';
+import * as ApiActions from './../actions/actions';
+import Store from './../store/store';
 
 class Source extends React.Component {
   constructor(props) {
     super(props);
     this.state = { source: [{ id: 'loading...' }], ids: [] };
     this.nsourcelist = [];
+
     this.getArticles = this.getArticles.bind(this);
     this.searchSource = this.searchSource.bind(this);
   }
 
   componentWillMount() {
     const url = 'https://newsapi.org/v1/sources';
-    jquery.get(url, (data) => {
-      const sourcelist = data.sources.map((d) => {
+// connects to the api and get all the news sources
+    jquery.get(url, (response) => {
+      // return an array of objects containing news source
+      // id and name
+      const sourcelist = response.sources.map((d) => {
         return { id: d.id, name: d.name };
       });
 
       this.setState({
-        source: data.status === 'ok' ?
-          data.sources : [{ id: 'Sources are unavailable' }],
+        source: response.status === 'ok' ?
+          response.sources : [{ id: 'Sources are unavailable' }],
         ids: sourcelist
       });
 
-      ApiDataStore.on('change', () => {
-        this.nsourcelist = ApiDataStore.sourcelist;
+      Store.on('change', () => {
+        this.nsourcelist = Store.sourcelist;
         if (this.nsourcelist !== []) {
           this.setState({ source: this.nsourcelist });
         } else {

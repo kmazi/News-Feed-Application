@@ -1,48 +1,31 @@
 import React from 'react';
-import jquery from 'jquery';
 import GoogleLogin from 'react-google-login';
-import * as ApiActions from './../actions/apiActions';
-import ApiDataStore from './../store/apistore';
-import Headline from './headlines.jsx';
+import * as ApiActions from './../actions/actions';
+import Article from './articles.jsx';
 import Source from './sources.jsx';
 
 export default class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sourceFeed: { source: 'loading...' }
-    };
+  constructor() {
+    super();
     this.successGoogleLogin = this.successGoogleLogin.bind(this);
   }
 
-  componentWillMount() {
-    const articleUrl = 'https://newsapi.org/v1/articles';
-    const key = process.env.NEWS_API_KEY;
-    const apiData = { source: 'cnn', apiKey: key };
-
-    jquery.get(articleUrl, apiData, (res) => {
-      this.setState({ sourceFeed: res });
-    });
-
-    ApiDataStore.on('click', () => {
-      this.setState({ sourceFeed: ApiDataStore.articles });
-    });
-  }
-
-  successGoogleLogin = (response) => {
+  successGoogleLogin(response) {
     const userInfo = response.profileObj,
       userName = userInfo.familyName,
       userEmail = userInfo.email,
       userId = userInfo.googleId;
     ApiActions.signInUser(userName, userEmail, userId);
   }
-
+// Render the general layout
   render() {
+    const minHeight = {
+      minHeight: window.document.innerHeight };
     return (
-      <div>
+      <div style={minHeight}>
         <div className="row">
           <div id="news-header">
-            <div id="site-name" className="pull-left">iNews</div>
+            <div id="site-name" className="pull-left">infoconnect</div>
             <GoogleLogin className="pull-right btn btn-default btn-primary"
               clientId={process.env.GOOGLE_CLIENT_KEY}
               buttonText="Google+ Login"
@@ -52,20 +35,22 @@ export default class Layout extends React.Component {
 
           <div id="news-banner">
             <h1 className="text-center">
-              Get updated news from over 70 reliable sources<br/> around the world.</h1>
+              Get updated news from over 70 reliable sources<br/>
+              around the world.</h1>
           </div>
         </div>
 
         <div className="container">
           <div className="row">
             <Source />
-            <Headline data={this.state.sourceFeed}
-              filter={this.state.sourceFeed.source} />
+            <Article />
           </div>
         </div>
 
         <footer>
-          <span>iNews &copy;2017</span>
+          <span>infoconnect &copy;2017</span>
+          <span className="pull-right">powered by
+            &nbsp;<a href="http://www.newsapi.org">newsapi</a></span>
         </footer>
 
       </div>
