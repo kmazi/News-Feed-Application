@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "An application that gets news feed from variety of news channels.",
   "main": "server.js",
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": ["lcov"]
+  },
   "dependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^7.2.3", 
     "babel-loader": "^7.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-react-html-attrs": "^2.0.0",
