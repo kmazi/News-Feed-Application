@@ -39,9 +39,6 @@ const testData = [{
     'latest'
   ]
 }];
-const action = { articles: testData[0],
-  source: testData,
-  inputText: 'a', };
 
 describe('The constructor', () => {
   it('must create the headline property', () => {
@@ -50,7 +47,7 @@ describe('The constructor', () => {
   });
 });
 
-describe('The setArticleData function', () => {
+describe('The setArticleContent function', () => {
   it('must set the headline property', () => {
     Store.setArticleContent(
       { source: [{ id: 'abc-news', source: 'ABC News International' }] });
@@ -58,22 +55,22 @@ describe('The setArticleData function', () => {
   });
 });
 
-describe('The setFilteredArticle function', () => {
-  it("shouldn't change the articles prop when the input data type is string",
-    () => {
-      Store.articles = 'No data yet!';
-      Store.setFilteredArticle(
-        "Don't change the value of the articles prop");
-      expect(Store.articles).toBe('No data yet!');
-    });
+// describe('The setFilteredArticle function', () => {
+//   it("shouldn't change the articles prop when the input data type is string",
+//     () => {
+//       Store.articles = 'No data yet!';
+//       Store.setFilteredArticle(
+//         "Don't change the value of the articles prop");
+//       expect(Store.articles).toBe('No data yet!');
+//     });
 
-  it("should change the value of the articles prop when input isn't string",
-    () => {
-      Store.articles = 'Will now set the value now';
-      Store.setFilteredArticle({ source: { id: 'bbc-news' } });
-      expect(Store.articles.source.id).toBe('bbc-news');
-    });
-});
+//   it("should change the value of the articles prop when input isn't string",
+//     () => {
+//       Store.articles = 'Will now set the value now';
+//       Store.setFilteredArticle({ source: { id: 'bbc-news' } });
+//       expect(Store.articles.source.id).toBe('bbc-news');
+//     });
+// });
 
 describe('The searchSources function', () => {
   it('should always return an object', () => {
@@ -102,6 +99,10 @@ describe('The searchSources function', () => {
 
 describe('The handleAllActions function', () => {
   it('should execute the searchSources function', () => {
+    const action = {
+      allSources: testData,
+      inputText: 'a',
+    };
     action.type = 'SEARCH_THROUGH_SOURCES';
     Store.matchedSourceList = [];
     Store.handleAllActions(action);
@@ -109,20 +110,34 @@ describe('The handleAllActions function', () => {
   });
 
   it('should not execute the searchSource function', () => {
+    const action = {
+      articles: testData,
+      source: testData,
+      inputText: 'a',
+    };
     action.type = 'SEARCH_THROUGH_SOURCE';
     Store.matchedSourceList = [];
     Store.handleAllActions(action);
     expect(Store.matchedSourceList.length).not.toBe(2);
   });
 
-  it('should execute the setArticleData function', () => {
-    action.type = 'GET_API_ARTICLES';
-    Store.articles = {};
+  it('should execute the setArticleContent function', () => {
+    const action = {
+      articles: testData,
+      srcName: 'ars-technica'
+    };
+    action.type = 'GET_ARTICLES_FROM_SOURCE';
+    Store.articles = [];
     Store.handleAllActions(action);
-    expect(Store.articles.country).toBe('au');
+    expect(Store.articles[0].country).toBe('au');
   });
 
-  it('should not execute the setArticleData function', () => {
+  it('should not execute the setArticleContent function', () => {
+    const action = {
+      articles: testData,
+      source: testData,
+      inputText: 'a',
+    };
     action.type = 'GET_API_ARTICLE';
     Store.articles = {};
     Store.handleAllActions(action);
@@ -130,13 +145,22 @@ describe('The handleAllActions function', () => {
   });
 
   it('should execute the setFilteredArticle function', () => {
+    const action = {
+      articles: testData,
+      source: testData,
+      inputText: 'a',
+    };
     action.type = 'GET_API_FILTERED_ARTICLES';
     action.articles = 'should not be a string';
     Store.articles = {};
     Store.handleAllActions(action);
     expect(typeof Store.articles).toEqual('object');
   });
-
+  const action = {
+    articles: testData,
+    source: testData,
+    inputText: 'a',
+  };
   it('should not execute the setFilteredArticle function', () => {
     action.type = 'GET_API_FILTERED_ARTICLE';
     Store.articles = {};
