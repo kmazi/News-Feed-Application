@@ -2,7 +2,7 @@
 )](https://travis-ci.org/kmazi/News-Feed-Application/?branch=dev
 )
 
-[![Coverage Status](https://coveralls.io/repos/github/kmazi/News-Feed-Application/badge.svg?branch=master)](https://coveralls.io/github/kmazi/News-Feed-Application?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/kmazi/News-Feed-Application/badge.svg?branch=master)](https://coveralls.io/github/kmazi/News-Feed-Application?branch=dev)
 
 # News-Feed-Application
 A news feed front end application that enables users get current news from popular news channels.
