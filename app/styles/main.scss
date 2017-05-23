@@ -108,6 +108,9 @@ footer{
   color: $news-bkgcolor;
   padding: 10px 10px;
 }
+#google{
+  background: red;
+}
 
 @media screen and (max-width: 600px) {
   #news-source>div{

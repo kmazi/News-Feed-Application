@@ -24,6 +24,7 @@ class Source extends React.Component {
       const sourcesArray = response.sources.map((source) => {
         return { id: source.id, name: source.name };
       });
+
 // change the state of the component
       this.setState({
         sources: response.status === 'ok' ?
@@ -66,7 +67,7 @@ class Source extends React.Component {
         loadedSources = finalSource.map((data, i) => {
           return (<div key={i}>
           <a className="" href="#" value={data.id}
-            onClick={this.getArticles}>
+            onClick={this.getArticles} data-content="articleSource">
             {data.name}</a>
         </div>);
         });

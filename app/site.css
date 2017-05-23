@@ -76,6 +76,9 @@ footer {
   color: #eeeeee;
   padding: 10px 10px; }
 
+#google {
+  background: red; }
+
 @media screen and (max-width: 600px) {
   #news-source > div {
     max-height: 200px;

@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
         <div className="row">
           <div id="news-header">
             <div id="site-name" className="pull-left">infoconnect</div>
-            <GoogleLogin className="pull-right btn btn-default btn-primary"
+            <GoogleLogin className="pull-right" id="google"
               clientId={process.env.GOOGLE_CLIENT_KEY}
               buttonText="Google+ Login"
               onSuccess={this.successGoogleLogin}
