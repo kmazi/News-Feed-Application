@@ -13,6 +13,8 @@ class Source extends React.Component {
 
     this.getArticles = this.getArticles.bind(this);
     this.searchSources = this.searchSources.bind(this);
+    this.filterAccess = this.filterAccess.bind(this);
+    this.displayAvailableFilters = this.displayAvailableFilters.bind(this);
   }
 
   componentWillMount() {
@@ -22,7 +24,7 @@ class Source extends React.Component {
       // return an array of objects containing news source
       // id and name
       const sourcesArray = response.sources.map((source) => {
-        return { id: source.id, name: source.name };
+        return { id: source.id, name: source.name, sortBys: source.sortBysAvailable };
       });
 
 // change the state of the component
@@ -39,6 +41,14 @@ class Source extends React.Component {
     });
   }
 
+  filterAccess(domElement) {
+    const linkContainer = jquery(domElement);
+    linkContainer.closest('[data-content=sourcelinks]').click((event) => {
+      event.preventDefault();
+      linkContainer.slideToggle();
+    });
+  }
+
   getArticles(event) {
     event.preventDefault();
     const sourceName = jquery(event.target).text();
@@ -48,6 +58,27 @@ class Source extends React.Component {
 
   searchSources(event) {
     ApiActions.searchThroughSources(event.target.value, this.state.sources);
+  }
+
+  displayAvailableFilters(sortBys) {
+    let filteredElements = '';
+    let filterCount = 0;
+    while (filterCount < sortBys.length) {
+      switch (sortBys[filterCount]) {
+      case 'top': filteredElements = <a href="#" data-filter="top">View Top</a>;
+        break;
+      case 'latest': filteredElements =
+      <a href="#" data-filter="popular">View Popular</a>;
+        break;
+      case 'populaar': filteredElements =
+      <a href="#" data-filter="latest">View Latest</a>;
+        break;
+      default: break;
+      }
+    // increment the counter
+      filterCount += 1;
+    }
+    return filteredElements;
   }
 
   render() {
@@ -64,11 +95,16 @@ class Source extends React.Component {
         loadedSources = <h4>{finalSource}</h4>;
       } else {
         // map the sources since there were matches
-        loadedSources = finalSource.map((data, i) => {
-          return (<div key={i}>
-          <a className="" href="#" value={data.id}
+        loadedSources = finalSource.map((source, i) => {
+          return (<div key={i} data-content="sourcelinks">
+          <a className="" href="#" value={source.id}
             onClick={this.getArticles} data-content="articleSource">
-            {data.name}</a>
+            {source.name}</a>
+            <div data-content="filters" ref={this.filterAccess}>
+              {
+                this.displayAvailableFilters(source.sortBys)
+              }
+            </div>
         </div>);
         });
       }

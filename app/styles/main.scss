@@ -111,6 +111,18 @@ footer{
 #google{
   background: red;
 }
+div[data-content=filters]{
+  margin-bottom: 2px;
+  display: none;
+  a{
+    display: inline-block;
+    margin-right: 3px;
+    padding: 2px 4px;
+    background: $header-color $header-bkg-image;
+    color: $headline-color;
+  }
+  
+}
 
 @media screen and (max-width: 600px) {
   #news-source>div{

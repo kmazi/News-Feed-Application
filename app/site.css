@@ -79,6 +79,16 @@ footer {
 #google {
   background: red; }
 
+div[data-content=filters] {
+  margin-bottom: 2px;
+  display: none; }
+  div[data-content=filters] a {
+    display: inline-block;
+    margin-right: 3px;
+    padding: 2px 4px;
+    background: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223);
+    color: #1F1F1F; }
+
 @media screen and (max-width: 600px) {
   #news-source > div {
     max-height: 200px;
