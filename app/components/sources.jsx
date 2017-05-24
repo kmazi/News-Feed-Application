@@ -24,7 +24,9 @@ class Source extends React.Component {
       // return an array of objects containing news source
       // id and name
       const sourcesArray = response.sources.map((source) => {
-        return { id: source.id, name: source.name, sortBys: source.sortBysAvailable };
+        return { id: source.id,
+          name: source.name,
+          sortBys: source.sortBysAvailable };
       });
 
 // change the state of the component
@@ -61,17 +63,18 @@ class Source extends React.Component {
   }
 
   displayAvailableFilters(sortBys) {
-    let filteredElements = '';
+    const filteredElements = [];
     let filterCount = 0;
     while (filterCount < sortBys.length) {
       switch (sortBys[filterCount]) {
-      case 'top': filteredElements = <a href="#" data-filter="top">View Top</a>;
+      case 'top': filteredElements.push(
+      <a href="#" data-filter="top">View Top</a>);
         break;
-      case 'latest': filteredElements =
-      <a href="#" data-filter="popular">View Popular</a>;
+      case 'latest': filteredElements.push(
+      <a href="#" data-filter="popular">View Popular</a>);
         break;
-      case 'populaar': filteredElements =
-      <a href="#" data-filter="latest">View Latest</a>;
+      case 'populaar': filteredElements.push(
+      <a href="#" data-filter="latest">View Latest</a>);
         break;
       default: break;
       }

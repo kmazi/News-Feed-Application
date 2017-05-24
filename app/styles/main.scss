@@ -3,6 +3,7 @@ $headline-color: #1F1F1F;
 $header-bkg-image: linear-gradient(#d69725,#DC9C25,#CE9223);
 $news-bkgcolor: rgb(238, 238, 238);
 $news-cont-bkg: #e2dcd0;
+$source-bkg: #e2dcd0;
 $big-font: 25px;
 $minheight: 35px;
 $margin-from-edge: 55px;
@@ -70,7 +71,7 @@ img{
   }
   div[data-content=news]{
     margin: 10px 0;
-    background: #e2dcd0;
+    background: $source-bkg;
     box-shadow: 5px 4px 5px #888888;
 
     p{
@@ -122,6 +123,16 @@ div[data-content=filters]{
     color: $headline-color;
   }
   
+}
+div[data-content=sourcelinks]:hover{
+  background: $header-color $header-bkg-image;
+  padding-bottom: 2px;
+  a{
+    color: $headline-color;
+  }
+  div>a{
+    background: $source-bkg;
+  }
 }
 
 @media screen and (max-width: 600px) {

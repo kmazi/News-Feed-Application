@@ -89,6 +89,14 @@ div[data-content=filters] {
     background: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223);
     color: #1F1F1F; }
 
+div[data-content=sourcelinks]:hover {
+  background: #d69725 linear-gradient(#d69725, #DC9C25, #CE9223);
+  padding-bottom: 2px; }
+  div[data-content=sourcelinks]:hover a {
+    color: #1F1F1F; }
+  div[data-content=sourcelinks]:hover div > a {
+    background: #e2dcd0; }
+
 @media screen and (max-width: 600px) {
   #news-source > div {
     max-height: 200px;
