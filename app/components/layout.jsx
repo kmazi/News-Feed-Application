@@ -31,6 +31,7 @@ export default class Layout extends React.Component {
               buttonText="Google+ Login"
               onSuccess={this.successGoogleLogin}
               onFailure={this.responseGoogle} />
+              <button className="pull-right">Favorites</button>
           </div>
 
           <div id="news-banner">

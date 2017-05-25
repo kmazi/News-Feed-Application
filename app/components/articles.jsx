@@ -7,9 +7,10 @@ class Article extends React.Component {
     super(props);
     this.state = {
       articles: [],
-      sourceName: 'from CNN',
+      sourceName: 'CNN',
       filter: ''
     };
+    this.addFavourite = this.addFavourite.bind(this);
   }
 
   componentWillMount() {
@@ -26,6 +27,16 @@ class Article extends React.Component {
         sourceName: Store.sourceName,
         filter: Store.filter });
     });
+  }
+
+  addFavourite(event) {
+    event.preventDefault();
+    const favourite = {};
+    favourite.imgUrl = event.target.getAttribute('data-articleImg');
+    favourite.title = event.target.getAttribute('data-articleTitle');
+    favourite.desc = event.target.getAttribute('data-articleDesc');
+    favourite.url = event.target.getAttribute('data-articleUrl');
+    localStorage.setItem(favourite.title, favourite);
   }
 
   renderArticles() {
@@ -46,6 +57,11 @@ class Article extends React.Component {
               <p>{article.description}</p>
               <div >
                 <a href={article.url} target="blank">Read more..</a>
+                <a href="#" data-articleImg={article.urlToImage}
+                data-articleTitle={article.title}
+                data-articleDesc={article.description}
+                data-articleUrl={article.url}
+                onClick={this.addFavourite}>add to favorites</a>
               </div>
             </div>
           </div>
@@ -61,7 +77,8 @@ class Article extends React.Component {
     return (
       <div className="col-md-9" id="news-headline">
         <div data-content="news-header" className="row">
-          <h3 className="pull-left">{this.state.filter} Headlines from {this.state.sourceName}</h3>
+          <h3 className="pull-left">
+            {this.state.filter} Headlines from {this.state.sourceName}</h3>
         </div>
         <div>
           {this.renderArticles()}

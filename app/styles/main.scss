@@ -10,6 +10,7 @@ $margin-from-edge: 55px;
 
 #app{
   background: #e9e9e6;
+  color: $headline-color
 }
 h3, h4{
   color: $headline-color;
@@ -73,6 +74,16 @@ img{
     margin: 10px 0;
     background: $source-bkg;
     box-shadow: 5px 4px 5px #888888;
+    a{
+      display: inline-block;
+      background: $source-bkg;
+      margin: 2px 5px;
+      padding: 5px;
+    }
+    a:hover{
+      background: $header-color $header-bkg-image;
+      color: $headline-color;
+    }
 
     p{
       font-size: 14px;
@@ -95,12 +106,15 @@ img{
   }
 }
 #news-header{
-  background-color: $header-color $header-bkg-image;
   min-height: $minheight;
 
   button{
     height: $minheight;
     margin-right: $margin-from-edge;
+  }
+
+  button:hover{
+    background: $header-color $header-bkg-image;
   }
 }
 footer{
