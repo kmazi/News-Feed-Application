@@ -10,8 +10,7 @@ const errorMessage = 'Error in loading articles';
  * @param {string} sourceName - The name of the source
  */
 export function getArticlesFromApi(sourceId, sourceName) {
-  const src = sourceId;
-  const apiParam = { source: src, apiKey: key };
+  const apiParam = { source: sourceId, apiKey: key };
 
   jquery.ajax({
     url: articleUrl,
@@ -38,12 +37,11 @@ export function getArticlesFromApi(sourceId, sourceName) {
 }
 /**
  * Connects to the news feed api and get articles filtered by
- * @param {object} target - contains information about the element
- *that fired this function
+ * @param {string} filter - the filter (top, popular, latest)
+ *  use to filter articles
+ * @param {string} src - the source id to fetch news headlines from
  */
-export function getFilteredArticle(target) {
-  const src = target.getAttribute('data-filter');
-  const filter = target.getAttribute('value');
+export function getFilteredArticle(filter, src) {
   const apiParam = { apiKey: key, source: src, sortBy: filter };
 
   jquery.ajax({
@@ -52,15 +50,16 @@ export function getFilteredArticle(target) {
     success: (res) => {
       dispatcher.dispatch(
         {
-          type: 'GET_API_FILTERED_ARTICLES',
-          articles: res
+          type: 'GET_FILTERED_ARTICLES',
+          articles: res.articles,
+          filter
         }
       );
     },
     error() {
       dispatcher.dispatch(
         {
-          type: 'GET_API_FILTERED_ARTICLES',
+          type: 'GET_FILTERED_ARTICLES',
           articles: errorMessage
         }
       );

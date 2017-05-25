@@ -1,6 +1,6 @@
 import React from 'react';
 import jquery from 'jquery';
-import * as ApiActions from './../actions/actions';
+import * as Action from './../actions/actions';
 import Store from './../store/store';
 
 class Source extends React.Component {
@@ -15,6 +15,7 @@ class Source extends React.Component {
     this.searchSources = this.searchSources.bind(this);
     this.filterAccess = this.filterAccess.bind(this);
     this.displayAvailableFilters = this.displayAvailableFilters.bind(this);
+    this.filterArticles = this.filterArticles.bind(this);
   }
 
   componentWillMount() {
@@ -42,7 +43,7 @@ class Source extends React.Component {
       this.setState({ source: this.matchedSources });
     });
   }
-
+// Controls the sliding container housing the headline filter buttons
   filterAccess(domElement) {
     const linkContainer = jquery(domElement);
     linkContainer.closest('[data-content=sourcelinks]').click((event) => {
@@ -50,35 +51,43 @@ class Source extends React.Component {
       linkContainer.slideToggle();
     });
   }
-
+// The function that triggers the action when the source
+// filter button is clicked
+  filterArticles(event) {
+    event.preventDefault();
+    const filter = event.target.getAttribute('data-filter');
+    const source = event.target.getAttribute('data-source');
+    Action.getFilteredArticle(filter, source);
+  }
+// Creates the function that gets headline news from from api
   getArticles(event) {
     event.preventDefault();
     const sourceName = jquery(event.target).text();
-    ApiActions.getArticlesFromApi(event.target.getAttribute('value'),
+    Action.getArticlesFromApi(event.target.getAttribute('value'),
     sourceName);
   }
-
+// event handler function to search through sources
   searchSources(event) {
-    ApiActions.searchThroughSources(event.target.value, this.state.sources);
+    Action.searchThroughSources(event.target.value, this.state.sources);
   }
-
-  displayAvailableFilters(sortBys) {
+// function to display the filter buttons when links to sources are clicked
+/**
+ * Generates links to filtered articles
+ * @param {object} sortBys - An array containing sort
+ *  values (top, popular, latest)
+ * @param {string} sourceId - The source where articles should be filtered
+ * @return {object} returns an array containing links to
+ * articles based on filter
+ */
+  displayAvailableFilters(sortBys, sourceId) {
     const filteredElements = [];
     let filterCount = 0;
     while (filterCount < sortBys.length) {
-      switch (sortBys[filterCount]) {
-      case 'top': filteredElements.push(
-      <a href="#" data-filter="top">View Top</a>);
-        break;
-      case 'latest': filteredElements.push(
-      <a href="#" data-filter="popular">View Popular</a>);
-        break;
-      case 'populaar': filteredElements.push(
-      <a href="#" data-filter="latest">View Latest</a>);
-        break;
-      default: break;
-      }
-    // increment the counter
+      filteredElements.push(<a href="#"
+      key={filterCount + 1}
+      onClick={this.filterArticles}
+      data-filter={sortBys[filterCount]}
+      data-source={sourceId} >View {sortBys[filterCount]}</a>);
       filterCount += 1;
     }
     return filteredElements;
@@ -105,7 +114,7 @@ class Source extends React.Component {
             {source.name}</a>
             <div data-content="filters" ref={this.filterAccess}>
               {
-                this.displayAvailableFilters(source.sortBys)
+                this.displayAvailableFilters(source.sortBys, source.id)
               }
             </div>
         </div>);

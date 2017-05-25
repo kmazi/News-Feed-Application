@@ -11,6 +11,7 @@ class Store extends EventEmitter {
   constructor() {
     super();
     this.articles = [];
+    this.filter = '';
     this.sourceName = '';
     this.matchedSourceList = [];
     this.isAuthenticated = false;
@@ -24,16 +25,19 @@ class Store extends EventEmitter {
   setArticleContent(articles, srcName) {
     this.articles = articles;
     this.sourceName = srcName;
+    this.filter = '';
     this.emit('click');
   }
 /**
  * Sets the articles property when filterting the news source
  * @param {object} articles - An object used to set the headline property
+ * @param {string} filter - The filter used to sort the article
  */
-  // setFilteredArticle(articles) {
-  //   this.articles = articles;
-  //   this.emit('click');
-  // }
+  setFilteredArticle(articles, filter) {
+    this.articles = articles;
+    this.filter = filter;
+    this.emit('click');
+  }
 /**
  * Searches through an array for occurences of a substring
  * @param {string} searchText - The substring to search for
@@ -66,6 +70,10 @@ class Store extends EventEmitter {
     switch (action.type) {
     case 'GET_ARTICLES_FROM_SOURCE': {
       this.setArticleContent(action.articles, action.srcName);
+      break;
+    }
+    case 'GET_FILTERED_ARTICLES': {
+      this.setFilteredArticle(action.articles, action.filter);
       break;
     }
     case 'SEARCH_THROUGH_SOURCES': {
