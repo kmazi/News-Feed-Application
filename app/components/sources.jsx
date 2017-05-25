@@ -56,8 +56,9 @@ class Source extends React.Component {
   filterArticles(event) {
     event.preventDefault();
     const filter = event.target.getAttribute('data-filter');
-    const source = event.target.getAttribute('data-source');
-    Action.getFilteredArticle(filter, source);
+    const source = event.target.getAttribute('data-sourceId');
+    const sourceName = event.target.getAttribute('data-sourceName');
+    Action.getFilteredArticle(filter, source, sourceName);
   }
 // Creates the function that gets headline news from from api
   getArticles(event) {
@@ -79,7 +80,7 @@ class Source extends React.Component {
  * @return {object} returns an array containing links to
  * articles based on filter
  */
-  displayAvailableFilters(sortBys, sourceId) {
+  displayAvailableFilters(sortBys, sourceId, sourceName) {
     const filteredElements = [];
     let filterCount = 0;
     while (filterCount < sortBys.length) {
@@ -87,7 +88,8 @@ class Source extends React.Component {
       key={filterCount + 1}
       onClick={this.filterArticles}
       data-filter={sortBys[filterCount]}
-      data-source={sourceId} >View {sortBys[filterCount]}</a>);
+      data-sourceId={sourceId}
+      data-sourceName = {sourceName} >View {sortBys[filterCount]}</a>);
       filterCount += 1;
     }
     return filteredElements;
@@ -114,7 +116,8 @@ class Source extends React.Component {
             {source.name}</a>
             <div data-content="filters" ref={this.filterAccess}>
               {
-                this.displayAvailableFilters(source.sortBys, source.id)
+                this.displayAvailableFilters(source.sortBys,
+                 source.id, source.name)
               }
             </div>
         </div>);

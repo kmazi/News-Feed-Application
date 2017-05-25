@@ -32,9 +32,11 @@ class Store extends EventEmitter {
  * Sets the articles property when filterting the news source
  * @param {object} articles - An object used to set the headline property
  * @param {string} filter - The filter used to sort the article
+ *  @param {string} srcName - The source name of the article
  */
-  setFilteredArticle(articles, filter) {
+  setFilteredArticle(articles, filter, srcName) {
     this.articles = articles;
+    this.sourceName = srcName;
     this.filter = filter;
     this.emit('click');
   }
@@ -73,7 +75,7 @@ class Store extends EventEmitter {
       break;
     }
     case 'GET_FILTERED_ARTICLES': {
-      this.setFilteredArticle(action.articles, action.filter);
+      this.setFilteredArticle(action.articles, action.filter, action.srcName);
       break;
     }
     case 'SEARCH_THROUGH_SOURCES': {

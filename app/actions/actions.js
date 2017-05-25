@@ -39,10 +39,12 @@ export function getArticlesFromApi(sourceId, sourceName) {
  * Connects to the news feed api and get articles filtered by
  * @param {string} filter - the filter (top, popular, latest)
  *  use to filter articles
- * @param {string} src - the source id to fetch news headlines from
+ * @param {string} sourceId - the source id to fetch news headlines from
+ * @param {string} sourceName - the name of the news
+ * source to fetch articles from
  */
-export function getFilteredArticle(filter, src) {
-  const apiParam = { apiKey: key, source: src, sortBy: filter };
+export function getFilteredArticle(filter, sourceId, sourceName) {
+  const apiParam = { apiKey: key, source: sourceId, sortBy: filter };
 
   jquery.ajax({
     url: articleUrl,
@@ -52,7 +54,8 @@ export function getFilteredArticle(filter, src) {
         {
           type: 'GET_FILTERED_ARTICLES',
           articles: res.articles,
-          filter
+          filter,
+          srcName: sourceName
         }
       );
     },
