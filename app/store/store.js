@@ -15,6 +15,7 @@ class Store extends EventEmitter {
     this.sourceName = '';
     this.matchedSourceList = [];
     this.isAuthenticated = false;
+    this.savedArticles = [];
   }
 /**
  * Sets the articles property when a source is selected
@@ -59,6 +60,20 @@ class Store extends EventEmitter {
     list;
     this.emit('change');
   }
+/**
+ * Dispatches the function to get favourite articles from the localstorage
+ */
+  getFavouriteArticles() {
+    const favouriteArticles = [],
+      keys = Object.keys(localStorage);
+    let index = keys.length - 1;
+    while (index >= 0) {
+      favouriteArticles.push(JSON.parse(localStorage.getItem(keys[index])));
+      index -= 1;
+    }
+    this.savedArticles = favouriteArticles;
+    this.emit('favourites');
+  }
 
   signInUser(name, email, id) {
     this.isAuthenticated = true;
@@ -80,6 +95,10 @@ class Store extends EventEmitter {
     }
     case 'SEARCH_THROUGH_SOURCES': {
       this.searchSources(action.inputText, action.allSources);
+      break;
+    }
+    case 'GET_FAVOURITE_ARTICLES': {
+      this.getFavouriteArticles();
       break;
     }
     case 'SIGN_IN_USER': {

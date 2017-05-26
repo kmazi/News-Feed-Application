@@ -94,3 +94,11 @@ export function signInUser(userName, userEmail, userId) {
     user: { name: userName, email: userEmail, id: userId }
   });
 }
+/**
+ * Dispatches the function to get favourite articles from the localstorage
+ */
+export function fetchFavourites() {
+  dispatcher.dispatch({
+    type: 'GET_FAVOURITE_ARTICLES'
+  });
+}
