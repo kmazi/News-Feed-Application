@@ -1,48 +1,89 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
+import swal from 'sweetalert2';
 import * as Action from './../actions/actions';
+import Store from './../store/store';
 import Article from './articles.jsx';
 import Source from './sources.jsx';
 
 export default class Layout extends React.Component {
   constructor() {
     super();
-    this.state = { loginStatus: 'Google+ login' };
+    this.state = {
+      loginStatus: 'Google+ login',
+      isLogedIn: false,
+      user: {}
+    };
     this.successGoogleLogin = this.successGoogleLogin.bind(this);
+    this.failedGoogleLogin = this.failedGoogleLogin.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
+  componentWillMount() {
+    Store.on('login', () => {
+      this.setState({
+        isLogedIn: Store.isAuthenticated,
+        user: Store.user
+      });
+    });
+
+    Store.on('logout', () => {
+      this.setState({
+        isLogedIn: Store.isAuthenticated,
+        user: Store.user
+      });
+    });
+  }
+  // called when user logs in successfully using google+
   successGoogleLogin(response) {
     const userInfo = response.profileObj,
       userName = userInfo.familyName,
-      userEmail = userInfo.email,
-      userId = userInfo.googleId;
-    Action.signInUser(userName, userEmail, userId);
+      userEmail = userInfo.email;
+    Action.signInUser(userName, userEmail);
   }
-// get the stored articles from local storage
+  // Called when user logs out from the application
+  signOut() {
+    Action.signOutUser(this.state.user);
+  }
+  // called when user fails to login successfully using google+
+  failedGoogleLogin() {
+    swal({
+      title: 'Login Failed',
+      text: 'Try to login using your google mail account',
+      type: 'error',
+      confirmButtonText: 'ok'
+    });
+  }
+  // get the stored articles from local storage
   getFavourites() {
     Action.fetchFavourites();
   }
-// Render the general layout
+  // Render the general layout
   render() {
     const minHeight = {
-      minHeight: window.innerHeight - 342 };
+      minHeight: window.innerHeight - 342
+    };
+    const identity = this.state.isLogedIn ? (<div className="pull-right">
+      <span className="label">welcome {this.state.user.name}</span>
+      <button onClick={this.signOut}>Log out</button></div>)
+      : (<GoogleLogin className="pull-right" id="google"
+        clientId={process.env.GOOGLE_CLIENT_KEY}
+        buttonText={this.state.loginStatus}
+        onSuccess={this.successGoogleLogin}
+        onFailure={this.failedGoogleLogin} />);
     return (
       <div>
         <div className="row">
           <div id="news-header">
             <div id="site-name" className="pull-left">infoconnect</div>
-            <GoogleLogin className="pull-right" id="google"
-              clientId={process.env.GOOGLE_CLIENT_KEY}
-              buttonText={this.state.loginStatus}
-              onSuccess={this.successGoogleLogin}
-              onFailure={this.responseGoogle} />
-              <button className="pull-right"
-                onClick={this.getFavourites}>Favorites</button>
+            {identity}
+            <button className="pull-right"
+              onClick={this.getFavourites}>Favorites</button>
           </div>
 
           <div id="news-banner">
             <h1 className="text-center">
-              Get updated news from over 70 reliable sources<br/>
+              Get updated news from over 70 reliable sources<br />
               around the world.</h1>
           </div>
         </div>

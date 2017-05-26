@@ -10,6 +10,7 @@ class Store extends EventEmitter {
    */
   constructor() {
     super();
+    this.user = {};
     this.articles = [];
     this.filter = '';
     this.sourceName = '';
@@ -17,35 +18,35 @@ class Store extends EventEmitter {
     this.isAuthenticated = false;
     this.savedArticles = [];
   }
-/**
- * Sets the articles property when a source is selected
- * @param {object} articles - An object from the news API source used to
- * @param {string} srcName - The source name of the article
- * set the articles property
- */
+  /**
+   * Sets the articles property when a source is selected
+   * @param {object} articles - An object from the news API source used to
+   * @param {string} srcName - The source name of the article
+   * set the articles property
+   */
   setArticleContent(articles, srcName) {
     this.articles = articles;
     this.sourceName = srcName;
     this.filter = '';
     this.emit('click');
   }
-/**
- * Sets the articles property when filterting the news source
- * @param {object} articles - An object used to set the headline property
- * @param {string} filter - The filter used to sort the article
- *  @param {string} srcName - The source name of the article
- */
+  /**
+   * Sets the articles property when filterting the news source
+   * @param {object} articles - An object used to set the headline property
+   * @param {string} filter - The filter used to sort the article
+   *  @param {string} srcName - The source name of the article
+   */
   setFilteredArticle(articles, filter, srcName) {
     this.articles = articles;
     this.sourceName = srcName;
     this.filter = filter;
     this.emit('click');
   }
-/**
- * Searches through an array for occurences of a substring
- * @param {string} searchText - The substring to search for
- * @param {string} sources - An array containing objects to search through
- */
+  /**
+   * Searches through an array for occurences of a substring
+   * @param {string} searchText - The substring to search for
+   * @param {string} sources - An array containing objects to search through
+   */
   searchSources(searchText, sources) {
     const list = [];
     // loop through the sources while searching for a match
@@ -54,58 +55,82 @@ class Store extends EventEmitter {
         list.push(source);
       }
     });
-// check if there has been a match before setting matchedsourcelist
+    // check if there has been a match before setting matchedsourcelist
     this.matchedSourceList = list.length === 0 ?
-    `${searchText} couldn't be found` :
-    list;
+      `${searchText} couldn't be found` :
+      list;
     this.emit('change');
   }
-/**
- * Dispatches the function to get favourite articles from the localstorage
- */
+  /**
+   * Dispatches the function to get favourite articles from the localstorage
+   */
   getFavouriteArticles() {
     const favouriteArticles = [],
       keys = Object.keys(localStorage);
     let index = keys.length - 1;
     while (index >= 0) {
-      favouriteArticles.push(JSON.parse(localStorage.getItem(keys[index])));
-      index -= 1;
+      let article = localStorage.getItem(keys[index]);
+      try {
+        article = JSON.parse(article);
+        favouriteArticles.push(article);
+        index -= 1;
+      } catch (err) {
+        index -= 1;
+      }
     }
-    this.savedArticles = favouriteArticles;
+
+    this.savedArticles = favouriteArticles.length === 0 ?
+      'No articles stored in your favourite list' :
+      favouriteArticles;
     this.emit('favourites');
   }
 
-  signInUser(name, email, id) {
+  signInUser(name, email) {
+    const user = { name, email };
+    this.user = user;
+    localStorage.setItem(email, name);
     this.isAuthenticated = true;
+    this.emit('login');
   }
-/**
- * Executes functions in the store conditionally
- * @param {object} action - An object containing information
- * about the store function to execute
- */
+
+  signOutUser(email) {
+    localStorage.removeItem(email);
+    this.isAuthenticated = false;
+    this.user = {};
+    this.emit('logout');
+  }
+  /**
+   * Executes functions in the store conditionally
+   * @param {object} action - An object containing information
+   * about the store function to execute
+   */
   handleAllActions(action) {
     switch (action.type) {
-    case 'GET_ARTICLES_FROM_SOURCE': {
-      this.setArticleContent(action.articles, action.srcName);
-      break;
-    }
-    case 'GET_FILTERED_ARTICLES': {
-      this.setFilteredArticle(action.articles, action.filter, action.srcName);
-      break;
-    }
-    case 'SEARCH_THROUGH_SOURCES': {
-      this.searchSources(action.inputText, action.allSources);
-      break;
-    }
-    case 'GET_FAVOURITE_ARTICLES': {
-      this.getFavouriteArticles();
-      break;
-    }
-    case 'SIGN_IN_USER': {
-      this.signInUser(action.user.name, action.user.email, action.user.id);
-      break;
-    }
-    default:
+      case 'GET_ARTICLES_FROM_SOURCE': {
+        this.setArticleContent(action.articles, action.srcName);
+        break;
+      }
+      case 'GET_FILTERED_ARTICLES': {
+        this.setFilteredArticle(action.articles, action.filter, action.srcName);
+        break;
+      }
+      case 'SEARCH_THROUGH_SOURCES': {
+        this.searchSources(action.inputText, action.allSources);
+        break;
+      }
+      case 'GET_FAVOURITE_ARTICLES': {
+        this.getFavouriteArticles();
+        break;
+      }
+      case 'SIGN_IN_USER': {
+        this.signInUser(action.user.name, action.user.email);
+        break;
+      }
+      case 'SIGN_OUT_USER': {
+        this.signOutUser(action.user.email);
+        break;
+      }
+      default:
     }
   }
 }

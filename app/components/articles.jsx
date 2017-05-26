@@ -4,12 +4,13 @@ import swal from 'sweetalert2';
 import Store from './../store/store';
 
 class Article extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       articles: [],
       sourceName: 'CNN',
-      filter: ''
+      filter: '',
+      isAuthenticated: false
     };
     this.addFavourite = this.addFavourite.bind(this);
   }
@@ -31,8 +32,26 @@ class Article extends React.Component {
       });
     });
 
+    Store.on('login', () => {
+      this.setState({
+        isAuthenticated: Store.isAuthenticated,
+        user: Store.user
+      });
+    });
+
+    Store.on('logout', () => {
+      this.setState({
+        isAuthenticated: Store.isAuthenticated,
+        user: Store.user
+      });
+    });
+
     Store.on('favourites', () => {
-      this.setState({ articles: Store.savedArticles });
+      this.setState({
+        articles: Store.savedArticles,
+        filter: '',
+        sourceName: 'Favourite Articles'
+      });
     });
   }
 
@@ -43,20 +62,38 @@ class Article extends React.Component {
     favourite.title = event.target.getAttribute('data-articleTitle');
     favourite.description = event.target.getAttribute('data-articleDesc');
     favourite.url = event.target.getAttribute('data-articleUrl');
-    localStorage.setItem(favourite.url, JSON.stringify(favourite));
-    swal({
-      title: 'Favourite Articles',
-      text: 'You have successfully added an article to your favourite list',
-      type: 'success',
-      confirmButtonText: 'ok'
-    });
+    if (this.state.isAuthenticated) {
+      localStorage.setItem(favourite.url, JSON.stringify(favourite));
+      swal({
+        title: 'Favourite Articles',
+        text: 'You have successfully added an article to your favourite list',
+        type: 'success',
+        confirmButtonText: 'ok'
+      });
+    } else {
+      swal({
+        title: 'LogIn Status',
+        text: 'You have to be logged in to add articles to favourite list',
+        type: 'info',
+        confirmButtonText: 'ok'
+      });
+    }
   }
-
+  // Contains logic that renders articles
   renderArticles() {
     const articles = this.state.articles;
     const containsArticles = articles.length > 0 &&
       articles !== 'Error in loading articles';
     let articleContents = null;
+    if (articles === 'No articles stored in your favourite list') {
+      articleContents = 'No articles in your favourite list';
+      swal({
+        title: 'Favourite Articles',
+        text: 'No articles in your favourite list',
+        type: 'info',
+        confirmButtonText: 'ok'
+      });
+    } else
     // If articles from newsapi.org is ready, render this component snippet
     if (containsArticles) {
       articleContents = articles.map((article, i) => {
@@ -91,7 +128,8 @@ class Article extends React.Component {
       <div className="col-md-9" id="news-headline">
         <div data-content="news-header" className="row">
           <h3 className="pull-left">
-            {this.state.filter} Headlines from {this.state.sourceName}</h3>
+            <span className="badge">{this.state.filter}</span>
+            Headlines from {this.state.sourceName}</h3>
         </div>
         <div>
           {this.renderArticles()}

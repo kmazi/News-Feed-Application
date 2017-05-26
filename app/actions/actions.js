@@ -88,10 +88,20 @@ export function searchThroughSources(substring, sources) {
  * @param {string} userEmail - The email of the user from google+
  * @param {string} userId - The google id of the user
  */
-export function signInUser(userName, userEmail, userId) {
+export function signInUser(userName, userEmail) {
   dispatcher.dispatch({
     type: 'SIGN_IN_USER',
-    user: { name: userName, email: userEmail, id: userId }
+    user: { name: userName, email: userEmail }
+  });
+}
+/**
+ * Dispatches the function that signs out a user from the application
+ * @param {object} user - an object containing name and email of the user
+ */
+export function signOutUser(user) {
+  dispatcher.dispatch({
+    type: 'SIGN_OUT_USER',
+    user
   });
 }
 /**
