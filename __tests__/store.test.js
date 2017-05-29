@@ -90,29 +90,56 @@ describe('The constructor', () => {
 });
 
 describe('The setArticleContent function', () => {
-  it('must set the headline property', () => {
-    Store.setArticleContent(
-      { source: [{ id: 'abc-news', source: 'ABC News International' }] });
-    expect(Store.articles.source[0].id).toBe('abc-news');
+  Store.setArticleContent(
+    [{ id: 'abc-news', source: 'ABC News International' }], 'ABC News');
+  it('must set the articles property', () => {
+    expect(Store.articles.length).not.toBeLessThanOrEqual(0);
+    expect(Store.articles[0].id).toBe('abc-news');
+  });
+
+  it('must set the sourceName property', () => {
+    expect(Store.sourceName).toBe('ABC News');
+  });
+
+  it('must set the reset the filter property', () => {
+    expect(Store.filter).toBe('');
   });
 });
 
-// describe('The setFilteredArticle function', () => {
-//   it("shouldn't change the articles prop when the input data type is string",
-//     () => {
-//       Store.articles = 'No data yet!';
-//       Store.setFilteredArticle(
-//         "Don't change the value of the articles prop");
-//       expect(Store.articles).toBe('No data yet!');
-//     });
+describe('The setFilteredArticle function', () => {
+  it('should change the value of the articles prop when input is an array',
+    () => {
+      Store.articles = 'Will set the articles prop now';
+      Store.setFilteredArticle(testData, 'top', 'ars-technica');
+      expect(typeof Store.articles).not.toBe('string');
+      expect(Store.articles.length).toBe(2);
+    });
 
-//   it("should change the value of the articles prop when input isn't string",
-//     () => {
-//       Store.articles = 'Will now set the value now';
-//       Store.setFilteredArticle({ source: { id: 'bbc-news' } });
-//       expect(Store.articles.source.id).toBe('bbc-news');
-//     });
-// });
+  it('should set the filter prop', () => {
+    Store.setFilteredArticle(testData, 'latest', 'ars-technica');
+    expect(Store.filter).toBe('latest');
+  });
+
+  it('should set the sourceName prop', () => {
+    Store.sourceName = 'before test';
+    Store.setFilteredArticle(testData, 'latest', 'ars-technica');
+    expect(Store.sourceName).toBe('ars-technica');
+  });
+
+  describe('when articles is not an array', () => {
+    it('should not change the sourceName prop', () => {
+      Store.sourceName = 'before test';
+      Store.setFilteredArticle('testData', 'latest', 'abc-news');
+      expect(Store.sourceName).not.toBe('abc-news');
+    });
+
+    it('should not change the articles prop', () => {
+      Store.articles = [];
+      Store.setFilteredArticle('testData', 'latest', 'abc-news');
+      expect(Store.articles.length).toBe(0);
+    });
+  });
+});
 
 describe('The searchSources function', () => {
   it('should always return an object', () => {

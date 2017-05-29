@@ -20,25 +20,33 @@ class Store extends EventEmitter {
   }
   /**
    * Sets the articles property when a source is selected
-   * @param {object} articles - An object from the news API source used to
+   * @param {object} articles - An array of headline articles
+   *  from a news API source
    * @param {string} srcName - The source name of the article
    * set the articles property
    */
   setArticleContent(articles, srcName) {
-    this.articles = articles;
-    this.sourceName = srcName;
+    if (typeof articles === 'object' && articles.length >= 0) {
+      this.articles = articles;
+    }
+    if (typeof srcName === 'string') {
+      this.sourceName = srcName;
+    }
     this.filter = '';
     this.emit('click');
   }
   /**
    * Sets the articles property when filterting the news source
-   * @param {object} articles - An object used to set the headline property
+   * @param {object} articles - An object(array) used to set the articles
+   *  property
    * @param {string} filter - The filter used to sort the article
    *  @param {string} srcName - The source name of the article
    */
   setFilteredArticle(articles, filter, srcName) {
-    this.articles = articles;
-    this.sourceName = srcName;
+    if (typeof articles === 'object' && articles.length >= 0) {
+      this.articles = articles;
+      this.sourceName = srcName;
+    }
     this.filter = filter;
     this.emit('click');
   }
