@@ -41,9 +41,51 @@ const testData = [{
 }];
 
 describe('The constructor', () => {
-  it('must create the headline property', () => {
-    const status = Store.articles === null;
-    expect(status).toBe(false);
+  it('must create the articles property', () => {
+    const article = Store.articles === null;
+    const articleLength = Store.articles.length;
+    expect(article).toBe(false);
+    expect(articleLength).not.toBeUndefined();
+  });
+
+  it('must create the user object', () => {
+    const status = typeof Store.user === 'object';
+    expect(status).toBe(true);
+  });
+
+  it('must create the filter variable', () => {
+    const filter = typeof Store.filter === 'string';
+    const createdFilter = Store.filter !== null;
+    expect(filter).toBe(true);
+    expect(createdFilter).toBe(true);
+  });
+
+  it('must create the sourceName property', () => {
+    const sourceName = typeof Store.sourceName === 'string';
+    const createdsourceName = Store.sourceName !== null;
+    expect(sourceName).toBe(true);
+    expect(createdsourceName).toBe(true);
+  });
+
+  it('must create the matchedSourceList property', () => {
+    const sourceList = Store.matchedSourceList === null;
+    const sourceListLength = Store.matchedSourceList.length;
+    expect(sourceList).toBe(false);
+    expect(sourceListLength).not.toBeUndefined();
+  });
+
+  it('must create the isAuthenticated property', () => {
+    const createdIsAuthenticated = Store.isAuthenticated !== null;
+    const isAuthenticated = Store.isAuthenticated === false;
+    expect(isAuthenticated).toBe(true);
+    expect(createdIsAuthenticated).toBe(true);
+  });
+
+  it('must create the savedArticles property', () => {
+    const savedArticles = Store.savedArticles === null;
+    const savedArticlesLength = Store.savedArticles.length;
+    expect(savedArticles).toBe(false);
+    expect(savedArticlesLength).not.toBeUndefined();
   });
 });
 

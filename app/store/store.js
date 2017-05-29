@@ -106,31 +106,31 @@ class Store extends EventEmitter {
    */
   handleAllActions(action) {
     switch (action.type) {
-      case 'GET_ARTICLES_FROM_SOURCE': {
-        this.setArticleContent(action.articles, action.srcName);
-        break;
-      }
-      case 'GET_FILTERED_ARTICLES': {
-        this.setFilteredArticle(action.articles, action.filter, action.srcName);
-        break;
-      }
-      case 'SEARCH_THROUGH_SOURCES': {
-        this.searchSources(action.inputText, action.allSources);
-        break;
-      }
-      case 'GET_FAVOURITE_ARTICLES': {
-        this.getFavouriteArticles();
-        break;
-      }
-      case 'SIGN_IN_USER': {
-        this.signInUser(action.user.name, action.user.email);
-        break;
-      }
-      case 'SIGN_OUT_USER': {
-        this.signOutUser(action.user.email);
-        break;
-      }
-      default:
+    case 'GET_ARTICLES_FROM_SOURCE': {
+      this.setArticleContent(action.articles, action.srcName);
+      break;
+    }
+    case 'GET_FILTERED_ARTICLES': {
+      this.setFilteredArticle(action.articles, action.filter, action.srcName);
+      break;
+    }
+    case 'SEARCH_THROUGH_SOURCES': {
+      this.searchSources(action.inputText, action.allSources);
+      break;
+    }
+    case 'GET_FAVOURITE_ARTICLES': {
+      this.getFavouriteArticles();
+      break;
+    }
+    case 'SIGN_IN_USER': {
+      this.signInUser(action.user.name, action.user.email);
+      break;
+    }
+    case 'SIGN_OUT_USER': {
+      this.signOutUser(action.user.email);
+      break;
+    }
+    default:
     }
   }
 }
