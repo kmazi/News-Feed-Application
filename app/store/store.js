@@ -92,7 +92,11 @@ class Store extends EventEmitter {
       favouriteArticles;
     this.emit('favourites');
   }
-
+/**
+ * Signs in the user by saving their username and email to localstorage
+ * @param {string} name - The name of the user
+ * @param {string} email - The email of the user
+ */
   signInUser(name, email) {
     const user = { name, email };
     this.user = user;
@@ -100,7 +104,10 @@ class Store extends EventEmitter {
     this.isAuthenticated = true;
     this.emit('login');
   }
-
+/**
+ * Signs out the user by deleting their username and email from localstorage
+ * @param {string} email - The email of the user
+ */
   signOutUser(email) {
     localStorage.removeItem(email);
     this.isAuthenticated = false;

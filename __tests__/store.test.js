@@ -1,44 +1,6 @@
 import Store from './../app/store/store';
-
-const testData = [{
-  id: 'abc-news-au',
-  name: 'ABC News (AU)',
-  description: `Australia's most trusted source of local,
-   national and world news. 
-  Comprehensive, independent, in-depth analysis,
-  the latest business, sport, weather and more.`,
-  url: 'http://www.abc.net.au/news',
-  category: 'general',
-  language: 'en',
-  country: 'au',
-  urlsToLogos: {
-    small: '',
-    medium: '',
-    large: ''
-  },
-  sortBysAvailable: [
-    top
-  ]
-},
-{
-  id: 'ars-technica',
-  name: 'Ars Technica',
-  description: `The PC enthusiast's resource. 
-  Power users and the tools they love, without computing religion.`,
-  url: 'http://arstechnica.com',
-  category: 'technology',
-  language: 'en',
-  country: 'us',
-  urlsToLogos: {
-    small: '',
-    medium: '',
-    large: ''
-  },
-  sortBysAvailable: [
-    'top',
-    'latest'
-  ]
-}];
+import MockSourceObj from '../mockObjects';
+import LocalMock from '../__mocks__/localStorageMock';
 
 describe('The constructor', () => {
   it('must create the articles property', () => {
@@ -110,23 +72,23 @@ describe('The setFilteredArticle function', () => {
   it('should change the value of the articles prop when input is an array',
     () => {
       Store.articles = 'Will set the articles prop now';
-      Store.setFilteredArticle(testData, 'top', 'ars-technica');
-      expect(typeof Store.articles).not.toBe('string');
+      Store.setFilteredArticle(MockSourceObj.default, 'top', 'ars-technica');
+      expect(Store.articles).not.toBe('string');
       expect(Store.articles.length).toBe(2);
     });
 
   it('should set the filter prop', () => {
-    Store.setFilteredArticle(testData, 'latest', 'ars-technica');
+    Store.setFilteredArticle(MockSourceObj.default, 'latest', 'ars-technica');
     expect(Store.filter).toBe('latest');
   });
 
   it('should set the sourceName prop', () => {
     Store.sourceName = 'before test';
-    Store.setFilteredArticle(testData, 'latest', 'ars-technica');
+    Store.setFilteredArticle(MockSourceObj.default, 'latest', 'ars-technica');
     expect(Store.sourceName).toBe('ars-technica');
   });
 
-  describe('when articles is not an array', () => {
+  describe('when articles prop is not an array', () => {
     it('should not change the sourceName prop', () => {
       Store.sourceName = 'before test';
       Store.setFilteredArticle('testData', 'latest', 'abc-news');
@@ -142,34 +104,101 @@ describe('The setFilteredArticle function', () => {
 });
 
 describe('The searchSources function', () => {
-  it('should always return an object', () => {
-    Store.searchSources('e', testData);
-    expect(Store.matchedSourceList).toEqual(testData);
+  it('should always set the value of matchedSourceList prop', () => {
+    Store.searchSources('e', MockSourceObj.default);
+    expect(Store.matchedSourceList).toEqual(MockSourceObj.default);
+    Store.searchSources('jjrk', MockSourceObj.default);
+    expect(Store.matchedSourceList).toBeDefined();
   });
 
-  it('should return an object in which the id property is abc-news-au', () => {
-    Store.matchedSourceList = [];
-    Store.searchSources('au', testData);
-    expect(Store.matchedSourceList[0].id).toBe('abc-news-au');
+  describe('should set matchedSourceList correctly',
+    () => {
+      it('when the searched string is i',
+        () => {
+          Store.matchedSourceList = [];
+          Store.searchSources('i', MockSourceObj.default);
+          expect(Store.matchedSourceList.length).toBe(1);
+          expect(Store.matchedSourceList[0].name).toBe('Ars Technica');
+        });
+
+      it('when the searched string is n',
+        () => {
+          Store.matchedSourceList = [];
+          Store.searchSources('n', MockSourceObj.default);
+          expect(Store.matchedSourceList.length).toBe(2);
+        });
+
+      it('when the searched string is ni',
+        () => {
+          Store.matchedSourceList = [];
+          Store.searchSources('ni', MockSourceObj.default);
+          expect(Store.matchedSourceList.length).toBe(1);
+          expect(Store.matchedSourceList[0].name).toBe('Ars Technica');
+        });
+    });
+
+  describe('when no match is found during search',
+    () => {
+      it('should set matchedSourceList to contain the searched string',
+        () => {
+          Store.matchedSourceList = [];
+          Store.searchSources('npm', MockSourceObj.default);
+          expect(Store.matchedSourceList.includes('npm')).toBeTruthy();
+        });
+
+      it('should set matchedSourceList to a string', () => {
+        Store.matchedSourceList = [];
+        Store.searchSources('jwt', MockSourceObj.default);
+        expect(typeof Store.matchedSourceList).toBe('string');
+      });
+    });
+});
+
+describe('The signInUser function', () => {
+  it('It should set the user prop using the user signin info', () => {
+    const userInfo = { name: 'kingsley', email: 'kingsleyu13@gmail.com' };
+    Store.signInUser('kingsley', 'kingsleyu13@gmail.com');
+    expect(Store.user).toEqual(userInfo);
   });
 
-  it('should contain only one object', () => {
-    Store.matchedSourceList = [];
-    Store.searchSources('au', testData);
-    expect(Store.matchedSourceList.length).not.toBe(2);
+  it('It should set isAuthenticated prop to true', () => {
+    Store.signInUser('kingsley', 'kingsleyu13@gmail.com');
+    expect(Store.isAuthenticated).toBeTruthy();
+  });
+});
+
+describe('The signOutUser function', () => {
+  it('It should delete the user info from localstorage', () => {
+    Store.user = { name: 'kingsley', email: 'kingsleyu13@gmail.com' };
+    Store.signOutUser('kingsleyu13@gmail.com');
+    expect(Store.user).toEqual({});
   });
 
-  it('should return all objects passed when no search string was typed', () => {
-    Store.matchedSourceList = [];
-    Store.searchSources('', testData);
-    expect(Store.matchedSourceList.length).toBe(2);
+  it('It should set isAuthenticated prop to false', () => {
+    Store.signOutUser('kingsley', 'kingsleyu13@gmail.com');
+    expect(Store.isAuthenticated).toBeFalsy();
+  });
+});
+
+describe('The getFavouriteArticles function', () => {
+  it('should set the value of favouriteArticles prop', () => {
+    Store.savedArticles = [];
+    Store.getFavouriteArticles();
+    expect(Store.savedArticles.length).not.toBe(0);
+  });
+
+  it(`should set favouriteArticles props to a message string when nothing
+   is found in the localstorage`, () => {
+    Store.savedArticles = [];
+    Store.getFavouriteArticles();
+    expect(typeof Store.savedArticles).toBe('string');
   });
 });
 
 describe('The handleAllActions function', () => {
   it('should execute the searchSources function', () => {
     const action = {
-      allSources: testData,
+      allSources: MockSourceObj.default,
       inputText: 'a',
     };
     action.type = 'SEARCH_THROUGH_SOURCES';
@@ -180,8 +209,8 @@ describe('The handleAllActions function', () => {
 
   it('should not execute the searchSource function', () => {
     const action = {
-      articles: testData,
-      source: testData,
+      articles: MockSourceObj.default,
+      source: MockSourceObj.default,
       inputText: 'a',
     };
     action.type = 'SEARCH_THROUGH_SOURCE';
@@ -192,7 +221,7 @@ describe('The handleAllActions function', () => {
 
   it('should execute the setArticleContent function', () => {
     const action = {
-      articles: testData,
+      articles: MockSourceObj.default,
       srcName: 'ars-technica'
     };
     action.type = 'GET_ARTICLES_FROM_SOURCE';
@@ -203,8 +232,8 @@ describe('The handleAllActions function', () => {
 
   it('should not execute the setArticleContent function', () => {
     const action = {
-      articles: testData,
-      source: testData,
+      articles: MockSourceObj.default,
+      source: MockSourceObj.default,
       inputText: 'a',
     };
     action.type = 'GET_API_ARTICLE';
@@ -215,8 +244,8 @@ describe('The handleAllActions function', () => {
 
   it('should execute the setFilteredArticle function', () => {
     const action = {
-      articles: testData,
-      source: testData,
+      articles: MockSourceObj.default,
+      source: MockSourceObj.default,
       inputText: 'a',
     };
     action.type = 'GET_API_FILTERED_ARTICLES';
@@ -226,8 +255,8 @@ describe('The handleAllActions function', () => {
     expect(typeof Store.articles).toEqual('object');
   });
   const action = {
-    articles: testData,
-    source: testData,
+    articles: MockSourceObj.default,
+    source: MockSourceObj.default,
     inputText: 'a',
   };
   it('should not execute the setFilteredArticle function', () => {
