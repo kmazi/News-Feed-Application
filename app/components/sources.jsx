@@ -20,6 +20,15 @@ class Source extends React.Component {
   }
 
   componentWillMount() {
+    // listening for change event from the store ie when
+    // a link is clicked and the source changes
+    Store.on('change', () => {
+      this.matchedSources = Store.matchedSourceList;
+      this.setState({ source: this.matchedSources });
+    });
+  }
+
+  componentDidMount() {
     const url = 'https://newsapi.org/v1/sources';
     // connects to the api and get all the news sources
     jquery.get(url, (response) => {
@@ -38,12 +47,6 @@ class Source extends React.Component {
         sources: response.status === 'ok' ?
           sourcesArray : 'Sources are unavailable'
       });
-    });
-    // listening for change event from the store ie when
-    // a link is clicked and the source changes
-    Store.on('change', () => {
-      this.matchedSources = Store.matchedSourceList;
-      this.setState({ source: this.matchedSources });
     });
   }
   // Controls the sliding container housing the headline filter buttons
