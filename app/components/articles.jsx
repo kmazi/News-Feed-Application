@@ -1,5 +1,5 @@
 import React from 'react';
-import jquery from 'jquery';
+import Axios from 'axios';
 import swal from 'sweetalert2';
 import Store from './../store/store';
 
@@ -18,11 +18,12 @@ class Article extends React.Component {
   componentWillMount() {
     const articleUrl = 'https://newsapi.org/v1/articles';
     const key = process.env.NEWS_API_KEY;
-    const paramInfo = { source: 'cnn', apiKey: key };
+    const paramInfo = { params: { source: 'cnn', apiKey: key } };
     // make asynchronous call to newsapi.org for articles
-    jquery.get(articleUrl, paramInfo, (res) => {
-      this.setState({ articles: res.articles });
+    Axios.get(articleUrl, paramInfo).then((res) => {
+      this.setState({ articles: res.data.articles });
     });
+
     // listen for click event from the store
     Store.on('click', () => {
       this.setState({

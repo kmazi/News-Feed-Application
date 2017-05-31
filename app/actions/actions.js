@@ -1,38 +1,62 @@
-import jquery from 'jquery';
+import Axios from 'axios';
 import dispatcher from '../dispatcher';
 
 const articleUrl = 'https://newsapi.org/v1/articles';
 const key = process.env.NEWS_API_KEY;
 const errorMessage = 'Error in loading articles';
 /**
+ * Calls the dispatcher when there is response from the api call
+ * @param {object} response - object received from the api
+ * call containing news articles
+ * @param {string} sourceName - the name of the source to fetch news from
+ */
+export function articleDispatcher(response, sourceName) {
+  dispatcher.dispatch(
+    {
+      type: 'GET_ARTICLES_FROM_SOURCE',
+      articles: response.articles,
+      srcName: sourceName
+    }
+  );
+}
+/**
+ * calls the dispatcher when an article is to be fetched using a filter
+ * @param {*} response - object received from the api
+ * @param {*} filter - the filter(top, latest, popular) used to fetch headline
+ * @param {*} sourceName - the name of the source to fetch news from
+ */
+export function filteredArticleDispatcher(response, filter, sourceName) {
+  dispatcher.dispatch(
+    {
+      type: 'GET_FILTERED_ARTICLES',
+      articles: response.articles,
+      srcName: sourceName,
+      filter
+    }
+  );
+}
+/**
+ * calls the dispatcher when there is an error connecting to the api
+ * @param {string} type - the dispatch key to use in identifying the
+ * action to fire in the store
+ */
+export function errorDispatcher(type) {
+  dispatcher.dispatch({
+    type,
+    articles: errorMessage
+  });
+}
+/**
  * Connects to the api and get articles from the given source
  * @param {string} sourceId - The id of the source from the newsapi
  * @param {string} sourceName - The name of the source
  */
 export function getArticlesFromApi(sourceId, sourceName) {
-  const apiParam = { source: sourceId, apiKey: key };
-
-  jquery.ajax({
-    url: articleUrl,
-    data: apiParam,
-    dataType: 'json',
-    success: (res) => {
-      dispatcher.dispatch(
-        {
-          type: 'GET_ARTICLES_FROM_SOURCE',
-          articles: res.articles,
-          srcName: sourceName
-        }
-      );
-    },
-    error() {
-      dispatcher.dispatch(
-        {
-          type: 'GET_ARTICLES_FROM_SOURCE',
-          articles: errorMessage
-        }
-      );
-    }
+  const apiParam = { params: { source: sourceId, apiKey: key } };
+  Axios.get(articleUrl, apiParam).then((response) => {
+    articleDispatcher(response.data, sourceName);
+  }).catch(() => {
+    errorDispatcher('GET_ARTICLES_FROM_SOURCE');
   });
 }
 /**
@@ -44,29 +68,12 @@ export function getArticlesFromApi(sourceId, sourceName) {
  * source to fetch articles from
  */
 export function getFilteredArticle(filter, sourceId, sourceName) {
-  const apiParam = { apiKey: key, source: sourceId, sortBy: filter };
-
-  jquery.ajax({
-    url: articleUrl,
-    data: apiParam,
-    success: (res) => {
-      dispatcher.dispatch(
-        {
-          type: 'GET_FILTERED_ARTICLES',
-          articles: res.articles,
-          filter,
-          srcName: sourceName
-        }
-      );
-    },
-    error() {
-      dispatcher.dispatch(
-        {
-          type: 'GET_FILTERED_ARTICLES',
-          articles: errorMessage
-        }
-      );
-    }
+  const apiParam = { params: {
+    apiKey: key, source: sourceId, sortBy: filter } };
+  Axios.get(articleUrl, apiParam).then((response) => {
+    filteredArticleDispatcher(response.data, filter, sourceName);
+  }).catch(() => {
+    errorDispatcher('GET_FILTERED_ARTICLES');
   });
 }
 /**

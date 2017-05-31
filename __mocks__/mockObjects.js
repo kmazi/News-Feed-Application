@@ -1,4 +1,4 @@
-exports.default = [{
+const articles = [{
   id: 'abc-news-au',
   name: 'ABC News (AU)',
   description: `Australia's most trusted source of local,
@@ -37,3 +37,5 @@ exports.default = [{
     'latest'
   ]
 }];
+
+export default articles;

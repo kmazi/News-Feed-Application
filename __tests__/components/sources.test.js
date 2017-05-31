@@ -10,14 +10,14 @@ describe('The sources component', () => {
     ReactDom.render(<Sources />, div);
   });
 
-  it('must show loading... initially before loading from api', () => {
+  it('should show loading... initially before loading from api', () => {
     const anchor = shallow(<Sources />);
     expect(anchor.text().includes('loading...')).toBe(true);
   });
 
-  it('must load from the main source when no source is being searched', () => {
+  it('should load from the main source when no source is being searched',
+  () => {
     const anchor = shallow(<Sources />);
-    anchor.setState({ sources: MockSourceObj.default });
-    console.log(anchor);
+    anchor.setState({ articles: MockSourceObj.default });
   });
 });
