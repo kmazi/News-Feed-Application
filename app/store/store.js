@@ -20,25 +20,33 @@ class Store extends EventEmitter {
   }
   /**
    * Sets the articles property when a source is selected
-   * @param {object} articles - An object from the news API source used to
+   * @param {object} articles - An array of headline articles
+   *  from a news API source
    * @param {string} srcName - The source name of the article
    * set the articles property
    */
   setArticleContent(articles, srcName) {
-    this.articles = articles;
-    this.sourceName = srcName;
+    if (typeof articles === 'object' && articles.length >= 0) {
+      this.articles = articles;
+    }
+    if (typeof srcName === 'string') {
+      this.sourceName = srcName;
+    }
     this.filter = '';
     this.emit('click');
   }
   /**
    * Sets the articles property when filterting the news source
-   * @param {object} articles - An object used to set the headline property
+   * @param {object} articles - An object(array) used to set the articles
+   *  property
    * @param {string} filter - The filter used to sort the article
    *  @param {string} srcName - The source name of the article
    */
   setFilteredArticle(articles, filter, srcName) {
-    this.articles = articles;
-    this.sourceName = srcName;
+    if (typeof articles === 'object' && articles.length >= 0) {
+      this.articles = articles;
+      this.sourceName = srcName;
+    }
     this.filter = filter;
     this.emit('click');
   }
@@ -84,7 +92,11 @@ class Store extends EventEmitter {
       favouriteArticles;
     this.emit('favourites');
   }
-
+/**
+ * Signs in the user by saving their username and email to localstorage
+ * @param {string} name - The name of the user
+ * @param {string} email - The email of the user
+ */
   signInUser(name, email) {
     const user = { name, email };
     this.user = user;
@@ -92,7 +104,10 @@ class Store extends EventEmitter {
     this.isAuthenticated = true;
     this.emit('login');
   }
-
+/**
+ * Signs out the user by deleting their username and email from localstorage
+ * @param {string} email - The email of the user
+ */
   signOutUser(email) {
     localStorage.removeItem(email);
     this.isAuthenticated = false;
@@ -106,31 +121,31 @@ class Store extends EventEmitter {
    */
   handleAllActions(action) {
     switch (action.type) {
-      case 'GET_ARTICLES_FROM_SOURCE': {
-        this.setArticleContent(action.articles, action.srcName);
-        break;
-      }
-      case 'GET_FILTERED_ARTICLES': {
-        this.setFilteredArticle(action.articles, action.filter, action.srcName);
-        break;
-      }
-      case 'SEARCH_THROUGH_SOURCES': {
-        this.searchSources(action.inputText, action.allSources);
-        break;
-      }
-      case 'GET_FAVOURITE_ARTICLES': {
-        this.getFavouriteArticles();
-        break;
-      }
-      case 'SIGN_IN_USER': {
-        this.signInUser(action.user.name, action.user.email);
-        break;
-      }
-      case 'SIGN_OUT_USER': {
-        this.signOutUser(action.user.email);
-        break;
-      }
-      default:
+    case 'GET_ARTICLES_FROM_SOURCE': {
+      this.setArticleContent(action.articles, action.srcName);
+      break;
+    }
+    case 'GET_FILTERED_ARTICLES': {
+      this.setFilteredArticle(action.articles, action.filter, action.srcName);
+      break;
+    }
+    case 'SEARCH_THROUGH_SOURCES': {
+      this.searchSources(action.inputText, action.allSources);
+      break;
+    }
+    case 'GET_FAVOURITE_ARTICLES': {
+      this.getFavouriteArticles();
+      break;
+    }
+    case 'SIGN_IN_USER': {
+      this.signInUser(action.user.name, action.user.email);
+      break;
+    }
+    case 'SIGN_OUT_USER': {
+      this.signOutUser(action.user.email);
+      break;
+    }
+    default:
     }
   }
 }
