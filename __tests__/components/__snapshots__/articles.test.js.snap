@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`undefined 1`] = `
+<div
+  className="col-md-9"
+  id="news-headline"
+>
+  <div
+    className="row"
+    data-content="news-header"
+  >
+    <h3
+      className="pull-left"
+    >
+      <span
+        className="badge"
+      >
+        
+      </span>
+      Headlines from 
+      CNN
+    </h3>
+  </div>
+  <div>
+    <h4 />
+  </div>
+</div>
+`;

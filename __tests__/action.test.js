@@ -1,14 +1,16 @@
 import sinon from 'sinon';
-import jQuery from 'jquery';
+import dispatcher from '../app/dispatcher';
 import { getArticlesFromApi } from '../app/actions/actions';
 
 describe('The getArticlesFromApi', () => {
-  afterEach(() => {
-    jQuery.ajax.restore();
-  });
+  const spy = sinon.spy();
+  // sinon.stub(jQuery, 'ajax');
+  const srcId = 'aljazeera';
+  const srcName = 'Aljazeera English';
+  dispatcher.register(spy);
+  getArticlesFromApi(srcId, srcName);
+  // const spy = sinon.spy(dispatcher, 'getArticlesFromApi');
   it('should call the jquery ajax function', () => {
-    const srcId = 'aljazeera',
-      srcName = 'Aljazeera English';
-    getArticlesFromApi(srcId, srcName);
+    expect(spy.called).toBe(true);
   });
 });

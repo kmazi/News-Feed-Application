@@ -1,5 +1,5 @@
 import Store from './../app/store/store';
-import MockSourceObj from '../mockObjects';
+import MockSourceObj from '../__mocks__/mockObjects';
 import LocalMock from '../__mocks__/localStorageMock';
 
 describe('The constructor', () => {

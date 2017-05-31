@@ -14,7 +14,7 @@ exports.default = [{
     medium: '',
     large: ''
   },
-  sortBysAvailable: [
+  sortBys: [
     top
   ]
 },
@@ -32,7 +32,7 @@ exports.default = [{
     medium: '',
     large: ''
   },
-  sortBysAvailable: [
+  sortBys: [
     'top',
     'latest'
   ]
