@@ -42,4 +42,30 @@ describe('The articles component', () => {
     article.addFavourite(eventMock);
     expect(spy).toBeCalled();
   });
+
+  it('should not allow user to add favourite article when they are logged in',
+  () => {
+    const article = new Article();
+    const articleObj = {};
+    articleObj.urlToImage = 'testData';
+    articleObj.title = 'test';
+    articleObj.description = 'tests';
+    article.state.isAuthenticated = true;
+    article.state.sourceName = 'Favourite Articles';
+    const test = article.shouldRenderDelButton(articleObj);
+    expect(test).toBeNull();
+  });
+
+  it('should allow user to add favourite article when they are logged in',
+  () => {
+    const article = new Article();
+    const articleObj = {};
+    articleObj.urlToImage = 'testData';
+    articleObj.title = 'test';
+    articleObj.description = 'tests';
+    article.state.isAuthenticated = true;
+    article.state.sourceName = 'cnn';
+    const test = article.shouldRenderDelButton(articleObj);
+    expect(test).not.toBeNull();
+  });
 });
