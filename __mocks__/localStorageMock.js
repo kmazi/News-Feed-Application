@@ -21,3 +21,4 @@ class LocalStorageMock {
 }
 
 global.localStorage = new LocalStorageMock();
+export default global.localStorage;

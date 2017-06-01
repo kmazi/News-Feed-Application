@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`undefined 1`] = `
+exports[`The articles component should render with the exact content 1`] = `
 <div
   className="col-md-9"
   id="news-headline"

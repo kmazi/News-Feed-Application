@@ -80,6 +80,18 @@ class Article extends React.Component {
       });
     }
   }
+
+  shouldRenderDelButton(article) {
+    let button = null;
+    if (this.state.sourceName !== 'Favourite Articles') {
+      button = (<a href="#" data-articleImg={article.urlToImage}
+        data-articleTitle={article.title}
+        data-articleDesc={article.description}
+        data-articleUrl={article.url}
+        onClick={this.addFavourite}>add to favorites</a>);
+    }
+    return button;
+  }
   // Contains logic that renders articles
   renderArticles() {
     const articles = this.state.articles;
@@ -95,32 +107,28 @@ class Article extends React.Component {
         confirmButtonText: 'ok'
       });
     } else
-    // If articles from newsapi.org is ready, render this component snippet
-    if (containsArticles) {
-      articleContents = articles.map((article, i) => {
-        return (
-          <div key={i} data-content="news" className="row">
-            <div className="col-md-5">
-              <img alt="article image" src={article.urlToImage} />
-            </div>
-            <div className="col-md-7">
-              <h4 className="text-center"> {article.title}</h4>
-              <p>{article.description}</p>
-              <div >
-                <a href={article.url} target="blank">Read more..</a>
-                <a href="#" data-articleImg={article.urlToImage}
-                  data-articleTitle={article.title}
-                  data-articleDesc={article.description}
-                  data-articleUrl={article.url}
-                  onClick={this.addFavourite}>add to favorites</a>
+      // If articles from newsapi.org is ready, render this component snippet
+      if (containsArticles) {
+        articleContents = articles.map((article, i) => {
+          return (
+            <div key={i} data-content="news" className="row">
+              <div className="col-md-5">
+                <img alt="article image" src={article.urlToImage} />
+              </div>
+              <div className="col-md-7">
+                <h4 className="text-center"> {article.title}</h4>
+                <p>{article.description}</p>
+                <div >
+                  <a href={article.url} target="blank">Read more..</a>
+                  {this.shouldRenderDelButton(article)}
+                </div>
               </div>
             </div>
-          </div>
-        );
-      });
-    } else {
-      articleContents = <h4>{articles}</h4>;
-    }
+          );
+        });
+      } else {
+        articleContents = <h4>{articles}</h4>;
+      }
     return articleContents;
   }
 
