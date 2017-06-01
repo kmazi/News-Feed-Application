@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The sources component should render all component correctly 1`] = `
+<div
+  className="col-md-3"
+  id="news-source"
+>
+  <h3
+    className=""
+  >
+    News Channels
+  </h3>
+  <div>
+    <input
+      className="form-control"
+      onChange={[Function]}
+      placeholder="search news sources"
+    />
+    <h4>
+      loading...
+    </h4>
+  </div>
+</div>
+`;
