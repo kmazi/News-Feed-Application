@@ -10,10 +10,11 @@ export default class Layout extends React.Component {
   constructor() {
     super();
     this.state = {
-      loginStatus: 'Google+ login',
+      login: 'Google+ login',
       isLogedIn: false,
       user: {}
     };
+    this.getFavourites = this.getFavourites.bind(this);
     this.successGoogleLogin = this.successGoogleLogin.bind(this);
     this.failedGoogleLogin = this.failedGoogleLogin.bind(this);
     this.signOut = this.signOut.bind(this);
@@ -56,7 +57,16 @@ export default class Layout extends React.Component {
   }
   // get the stored articles from local storage
   getFavourites() {
-    Action.fetchFavourites();
+    if (this.state.isLogedIn) {
+      Action.fetchFavourites();
+    } else {
+      swal({
+        title: 'Not Logged in',
+        text: 'Login to view saved articles!',
+        type: 'error',
+        confirmButtonText: 'ok'
+      });
+    }
   }
   // Render the general layout
   render() {
@@ -68,7 +78,7 @@ export default class Layout extends React.Component {
       <button onClick={this.signOut}>Log out</button></div>)
       : (<GoogleLogin className="pull-right" id="google"
         clientId={process.env.GOOGLE_CLIENT_KEY}
-        buttonText={this.state.loginStatus}
+        buttonText={this.state.login}
         onSuccess={this.successGoogleLogin}
         onFailure={this.failedGoogleLogin} />);
     return (

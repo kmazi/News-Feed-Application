@@ -73,8 +73,8 @@ class Article extends React.Component {
       });
     } else {
       swal({
-        title: 'LogIn Status',
-        text: 'You have to be logged in to add articles to favourite list',
+        title: 'Not Logged in',
+        text: 'Log in to add articles to favourite list',
         type: 'info',
         confirmButtonText: 'ok'
       });
@@ -84,13 +84,13 @@ class Article extends React.Component {
   renderArticles() {
     const articles = this.state.articles;
     const containsArticles = articles.length > 0 &&
-      articles !== 'Error in loading articles';
+      typeof articles === 'object';
     let articleContents = null;
     if (articles === 'No articles stored in your favourite list') {
       articleContents = 'No articles in your favourite list';
       swal({
         title: 'Favourite Articles',
-        text: 'No articles in your favourite list',
+        text: 'Your favourite list is empty!',
         type: 'info',
         confirmButtonText: 'ok'
       });
