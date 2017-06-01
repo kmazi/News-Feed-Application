@@ -1,4 +1,4 @@
-exports.default = [{
+const articles = [{
   id: 'abc-news-au',
   name: 'ABC News (AU)',
   description: `Australia's most trusted source of local,
@@ -14,7 +14,7 @@ exports.default = [{
     medium: '',
     large: ''
   },
-  sortBysAvailable: [
+  sortBys: [
     top
   ]
 },
@@ -32,8 +32,10 @@ exports.default = [{
     medium: '',
     large: ''
   },
-  sortBysAvailable: [
+  sortBys: [
     'top',
     'latest'
   ]
 }];
+
+export default articles;

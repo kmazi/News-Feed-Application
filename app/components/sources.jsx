@@ -1,5 +1,6 @@
 import React from 'react';
 import jquery from 'jquery';
+import Axios from 'axios';
 import * as Action from './../actions/actions';
 import Store from './../store/store';
 
@@ -20,12 +21,21 @@ class Source extends React.Component {
   }
 
   componentWillMount() {
+    // listening for change event from the store ie when
+    // a link is clicked and the source changes
+    Store.on('change', () => {
+      this.matchedSources = Store.matchedSourceList;
+      this.setState({ source: this.matchedSources });
+    });
+  }
+
+  componentDidMount() {
     const url = 'https://newsapi.org/v1/sources';
     // connects to the api and get all the news sources
-    jquery.get(url, (response) => {
+    Axios.get(url).then((response) => {
       // return an array of objects containing news source
       // id and name
-      const sourcesArray = response.sources.map((source) => {
+      const sourcesArray = response.data.sources.map((source) => {
         return {
           id: source.id,
           name: source.name,
@@ -35,15 +45,13 @@ class Source extends React.Component {
 
       // change the state of the component
       this.setState({
-        sources: response.status === 'ok' ?
-          sourcesArray : 'Sources are unavailable'
+        sources: sourcesArray
       });
-    });
-    // listening for change event from the store ie when
-    // a link is clicked and the source changes
-    Store.on('change', () => {
-      this.matchedSources = Store.matchedSourceList;
-      this.setState({ source: this.matchedSources });
+    }).catch(() => {
+      // change the state of the component
+      this.setState({
+        sources: 'Sources are unavailable'
+      });
     });
   }
   // Controls the sliding container housing the headline filter buttons
@@ -103,6 +111,7 @@ class Source extends React.Component {
     const sources = this.state.sources;
     let loadedSources = null;
     const matchedSources = this.matchedSources;
+    // save the matchedsources if there has been a match
     const finalSource = matchedSources.length === 0 ?
       sources : matchedSources;
 

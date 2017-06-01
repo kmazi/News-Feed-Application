@@ -1,5 +1,5 @@
 import Store from './../app/store/store';
-import MockSourceObj from '../mockObjects';
+import MockSourceObj from '../__mocks__/mockObjects';
 import LocalMock from '../__mocks__/localStorageMock';
 
 describe('The constructor', () => {
@@ -15,35 +15,35 @@ describe('The constructor', () => {
     expect(status).toBe(true);
   });
 
-  it('must create the filter variable', () => {
+  it('should create the filter variable', () => {
     const filter = typeof Store.filter === 'string';
     const createdFilter = Store.filter !== null;
     expect(filter).toBe(true);
     expect(createdFilter).toBe(true);
   });
 
-  it('must create the sourceName property', () => {
+  it('should create the sourceName property', () => {
     const sourceName = typeof Store.sourceName === 'string';
     const createdsourceName = Store.sourceName !== null;
     expect(sourceName).toBe(true);
     expect(createdsourceName).toBe(true);
   });
 
-  it('must create the matchedSourceList property', () => {
+  it('should create the matchedSourceList property', () => {
     const sourceList = Store.matchedSourceList === null;
     const sourceListLength = Store.matchedSourceList.length;
     expect(sourceList).toBe(false);
     expect(sourceListLength).not.toBeUndefined();
   });
 
-  it('must create the isAuthenticated property', () => {
+  it('should create the isAuthenticated property', () => {
     const createdIsAuthenticated = Store.isAuthenticated !== null;
     const isAuthenticated = Store.isAuthenticated === false;
     expect(isAuthenticated).toBe(true);
     expect(createdIsAuthenticated).toBe(true);
   });
 
-  it('must create the savedArticles property', () => {
+  it('should create the savedArticles property', () => {
     const savedArticles = Store.savedArticles === null;
     const savedArticlesLength = Store.savedArticles.length;
     expect(savedArticles).toBe(false);
@@ -72,19 +72,19 @@ describe('The setFilteredArticle function', () => {
   it('should change the value of the articles prop when input is an array',
     () => {
       Store.articles = 'Will set the articles prop now';
-      Store.setFilteredArticle(MockSourceObj.default, 'top', 'ars-technica');
+      Store.setFilteredArticle(MockSourceObj, 'top', 'ars-technica');
       expect(Store.articles).not.toBe('string');
       expect(Store.articles.length).toBe(2);
     });
 
   it('should set the filter prop', () => {
-    Store.setFilteredArticle(MockSourceObj.default, 'latest', 'ars-technica');
+    Store.setFilteredArticle(MockSourceObj, 'latest', 'ars-technica');
     expect(Store.filter).toBe('latest');
   });
 
   it('should set the sourceName prop', () => {
     Store.sourceName = 'before test';
-    Store.setFilteredArticle(MockSourceObj.default, 'latest', 'ars-technica');
+    Store.setFilteredArticle(MockSourceObj, 'latest', 'ars-technica');
     expect(Store.sourceName).toBe('ars-technica');
   });
 
@@ -105,9 +105,9 @@ describe('The setFilteredArticle function', () => {
 
 describe('The searchSources function', () => {
   it('should always set the value of matchedSourceList prop', () => {
-    Store.searchSources('e', MockSourceObj.default);
-    expect(Store.matchedSourceList).toEqual(MockSourceObj.default);
-    Store.searchSources('jjrk', MockSourceObj.default);
+    Store.searchSources('e', MockSourceObj);
+    expect(Store.matchedSourceList).toEqual(MockSourceObj);
+    Store.searchSources('jjrk', MockSourceObj);
     expect(Store.matchedSourceList).toBeDefined();
   });
 
@@ -116,7 +116,7 @@ describe('The searchSources function', () => {
       it('when the searched string is i',
         () => {
           Store.matchedSourceList = [];
-          Store.searchSources('i', MockSourceObj.default);
+          Store.searchSources('i', MockSourceObj);
           expect(Store.matchedSourceList.length).toBe(1);
           expect(Store.matchedSourceList[0].name).toBe('Ars Technica');
         });
@@ -124,14 +124,14 @@ describe('The searchSources function', () => {
       it('when the searched string is n',
         () => {
           Store.matchedSourceList = [];
-          Store.searchSources('n', MockSourceObj.default);
+          Store.searchSources('n', MockSourceObj);
           expect(Store.matchedSourceList.length).toBe(2);
         });
 
       it('when the searched string is ni',
         () => {
           Store.matchedSourceList = [];
-          Store.searchSources('ni', MockSourceObj.default);
+          Store.searchSources('ni', MockSourceObj);
           expect(Store.matchedSourceList.length).toBe(1);
           expect(Store.matchedSourceList[0].name).toBe('Ars Technica');
         });
@@ -142,13 +142,13 @@ describe('The searchSources function', () => {
       it('should set matchedSourceList to contain the searched string',
         () => {
           Store.matchedSourceList = [];
-          Store.searchSources('npm', MockSourceObj.default);
+          Store.searchSources('npm', MockSourceObj);
           expect(Store.matchedSourceList.includes('npm')).toBeTruthy();
         });
 
       it('should set matchedSourceList to a string', () => {
         Store.matchedSourceList = [];
-        Store.searchSources('jwt', MockSourceObj.default);
+        Store.searchSources('jwt', MockSourceObj);
         expect(typeof Store.matchedSourceList).toBe('string');
       });
     });
@@ -198,7 +198,7 @@ describe('The getFavouriteArticles function', () => {
 describe('The handleAllActions function', () => {
   it('should execute the searchSources function', () => {
     const action = {
-      allSources: MockSourceObj.default,
+      allSources: MockSourceObj,
       inputText: 'a',
     };
     action.type = 'SEARCH_THROUGH_SOURCES';
@@ -209,8 +209,8 @@ describe('The handleAllActions function', () => {
 
   it('should not execute the searchSource function', () => {
     const action = {
-      articles: MockSourceObj.default,
-      source: MockSourceObj.default,
+      articles: MockSourceObj,
+      source: MockSourceObj,
       inputText: 'a',
     };
     action.type = 'SEARCH_THROUGH_SOURCE';
@@ -221,7 +221,7 @@ describe('The handleAllActions function', () => {
 
   it('should execute the setArticleContent function', () => {
     const action = {
-      articles: MockSourceObj.default,
+      articles: MockSourceObj,
       srcName: 'ars-technica'
     };
     action.type = 'GET_ARTICLES_FROM_SOURCE';
@@ -232,8 +232,8 @@ describe('The handleAllActions function', () => {
 
   it('should not execute the setArticleContent function', () => {
     const action = {
-      articles: MockSourceObj.default,
-      source: MockSourceObj.default,
+      articles: MockSourceObj,
+      source: MockSourceObj,
       inputText: 'a',
     };
     action.type = 'GET_API_ARTICLE';
@@ -244,8 +244,8 @@ describe('The handleAllActions function', () => {
 
   it('should execute the setFilteredArticle function', () => {
     const action = {
-      articles: MockSourceObj.default,
-      source: MockSourceObj.default,
+      articles: MockSourceObj,
+      source: MockSourceObj,
       inputText: 'a',
     };
     action.type = 'GET_API_FILTERED_ARTICLES';
@@ -255,8 +255,8 @@ describe('The handleAllActions function', () => {
     expect(typeof Store.articles).toEqual('object');
   });
   const action = {
-    articles: MockSourceObj.default,
-    source: MockSourceObj.default,
+    articles: MockSourceObj,
+    source: MockSourceObj,
     inputText: 'a',
   };
   it('should not execute the setFilteredArticle function', () => {
