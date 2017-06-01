@@ -38,4 +38,21 @@ describe('The sources component', () => {
     source.filterArticles(eventMock);
     expect(spy).toBeCalled();
   });
+
+  it('should show articles properly', () => {
+    const eventMock = {
+      target: {
+        getAttribute: (attrib) => {
+          return `${attrib} mock`;
+        }
+      }
+    };
+    eventMock.preventDefault = () => {
+      // just a mock!
+    };
+    const spy = jest.spyOn(Action, 'getArticlesFromApi');
+    const source = new Sources();
+    source.getArticles(eventMock);
+    expect(spy).toBeCalled();
+  });
 });
