@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import { shallow } from 'enzyme';
 import ReactRenderer from 'react-test-renderer';
+import * as Action from '../../app//actions/actions';
 import Sources from './../../app/components/sources.jsx';
 
 describe('The sources component', () => {
@@ -16,8 +17,25 @@ describe('The sources component', () => {
   });
 
   it('should render all component correctly', () => {
-    const component = ReactRenderer.create(<Sources/>);
+    const component = ReactRenderer.create(<Sources />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it('should filter articles properly', () => {
+    const eventMock = {
+      target: {
+        getAttribute: (attrib) => {
+          return `${attrib} mock`;
+        }
+      }
+    };
+    eventMock.preventDefault = () => {
+      // just a mock!
+    };
+    const spy = jest.spyOn(Action, 'getFilteredArticle');
+    const source = new Sources();
+    source.filterArticles(eventMock);
+    expect(spy).toBeCalled();
   });
 });
