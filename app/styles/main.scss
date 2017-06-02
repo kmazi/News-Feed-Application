@@ -7,6 +7,7 @@ $news-cont-bkg: #e2dcd0;
 $source-bkg: #e2dcd0;
 $big-font: 25px;
 $minheight: 35px;
+$clicked-color: linear-gradient(#67c9f8, #32a8e6, #1bb3e1);
 $margin-from-edge: 55px;
 
 #app{
@@ -24,7 +25,15 @@ h3, h4{
 #news-source{
   background: $news-cont-bkg;
   border-right: 10px solid $app-bkg;
+  div{
+    padding-left: 5px;
+  }
+  .clicked-src-div{
+    outline: solid 2px #67c9f8;
+    border: 2px solid #32a8e6;
+  }
   a{
+    padding: 3px;
     display: inline-block;
   }
 }

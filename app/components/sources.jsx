@@ -57,9 +57,11 @@ class Source extends React.Component {
   // Controls the sliding container housing the headline filter buttons
   filterAccess(domElement) {
     const linkContainer = jquery(domElement);
-    linkContainer.closest('[data-content=sourcelinks]').click((event) => {
+    const clickedDiv = linkContainer.closest('[data-content=sourcelinks]');
+    clickedDiv.click((event) => {
       event.preventDefault();
       linkContainer.slideToggle();
+      clickedDiv.toggleClass('clicked-src-div');
     });
   }
   // The function that triggers the action when the source
