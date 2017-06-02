@@ -13,9 +13,10 @@ exports[`The articles component should render with the exact content 1`] = `
       className="pull-left"
     >
       <span
-        className="badge"
+        className=""
       >
         
+         
       </span>
       Headlines from 
       CNN
