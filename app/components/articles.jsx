@@ -137,7 +137,7 @@ class Article extends React.Component {
       <div className="col-md-9" id="news-headline">
         <div data-content="news-header" className="row">
           <h3 className="pull-left">
-            <span className="badge">{this.state.filter}</span>
+            <span className="">{this.state.filter}&nbsp;</span>
             Headlines from {this.state.sourceName}</h3>
         </div>
         <div>

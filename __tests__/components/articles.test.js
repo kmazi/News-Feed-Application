@@ -7,7 +7,7 @@ import Article from './../../app/components/articles.jsx';
 describe('The articles component', () => {
   it('must render without throwing error', () => {
     const div = document.createElement('div');
-    ReactDom.render(<Article />, div);
+    expect(ReactDom.render(<Article />, div)).not.toThrowError(/Exception/);
   });
 
   it('should render with the exact content', () => {
