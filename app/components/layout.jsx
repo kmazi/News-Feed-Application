@@ -74,7 +74,7 @@ export default class Layout extends React.Component {
       minHeight: window.innerHeight - 342
     };
     const identity = this.state.isLogedIn ? (<div className="pull-right">
-      <span className="label">welcome {this.state.user.name}</span>
+      <span className="">Welcome {this.state.user.name}&nbsp;</span>
       <button onClick={this.signOut}>Log out</button></div>)
       : (<GoogleLogin className="pull-right" id="google"
         clientId={process.env.GOOGLE_CLIENT_KEY}
