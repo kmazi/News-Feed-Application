@@ -272,4 +272,12 @@ describe('The handleAllActions function', () => {
     Store.handleAllActions(action);
     expect(Store.matchedSourceList.length).toBeLessThanOrEqual(0);
   });
+
+  it('should execute the removeFavourite function', () => {
+    Store.savedArticles = [{ title: 'hello' }];
+    const spyRemove = jest.spyOn(Store, 'removeFavourite');
+    action.type = 'REMOVE_FAVOURITE_ARTICLE';
+    Store.handleAllActions(action);
+    expect(spyRemove).toBeCalled();
+  });
 });

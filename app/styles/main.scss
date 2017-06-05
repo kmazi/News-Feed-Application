@@ -15,6 +15,9 @@ $margin-from-edge: 55px;
   color: $headline-color;
   font-family: 'Roboto Slab', serif;
 }
+.display {
+  display: none;
+}
 h3, h4{
   color: $headline-color;
 }
