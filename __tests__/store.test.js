@@ -1,6 +1,6 @@
 import Store from './../app/store/store';
 import MockSourceObj from '../__mocks__/mockObjects';
-import LocalMock from '../__mocks__/localStorageMock';
+import '../__mocks__/localStorageMock';
 
 describe('The constructor', () => {
   it('must create the articles property', () => {

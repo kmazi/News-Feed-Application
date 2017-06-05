@@ -11,23 +11,16 @@ class Article extends React.Component {
     super();
     this.state = {
       articles: [],
-      sourceName: 'CNN',
+      sourceName: '...',
       filter: '',
       isAuthenticated: false
     };
     this.addFavourite = this.addFavourite.bind(this);
     this.removeFavourite = this.removeFavourite.bind(this);
+    this.getRandomInt = this.getRandomInt.bind(this);
   }
-// Runs before the component mounts
+  // Runs before the component mounts
   componentWillMount() {
-    const articleUrl = 'https://newsapi.org/v1/articles';
-    const key = process.env.NEWS_API_KEY;
-    const paramInfo = { params: { source: 'cnn', apiKey: key } };
-    // make asynchronous call to newsapi.org for articles
-    Axios.get(articleUrl, paramInfo).then((res) => {
-      this.setState({ articles: res.data.articles });
-    });
-
     // listen for click event from the store
     Store.on('click', () => {
       this.setState({
@@ -59,11 +52,38 @@ class Article extends React.Component {
       });
     });
   }
-/**
- * Adds selected article to favourite list
- * @param {object} event - object containing the information about an
- * html element
- */
+  // Called after component has mounted
+  componentDidMount() {
+    const articleUrl = 'https://newsapi.org/v1/articles';
+    const sourceUrl = 'https://newsapi.org/v1/sources';
+    Axios.get(sourceUrl).then((res) => {
+      const index = this.getRandomInt(0, 70);
+      const sourceId = res.data.sources[index].id;
+      const srcName = res.data.sources[index].name;
+      const key = process.env.NEWS_API_KEY;
+      const paramInfo = { params: { source: sourceId, apiKey: key } };
+      // make asynchronous call to newsapi.org for articles
+      Axios.get(articleUrl, paramInfo).then((res) => {
+        this.setState({ articles: res.data.articles, sourceName: srcName });
+      });
+    });
+  }
+  /**
+   * Gets a random number between 0-70
+   * @param {number} min - the minimum number to generate
+   * @param {number} max - the maximum number to generate
+   * @return {number} the number between 0 and 70
+   */
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+  /**
+   * Adds selected article to favourite list
+   * @param {object} event - object containing the information about an
+   * html element
+   */
   addFavourite(event) {
     event.preventDefault();
     const favourite = {};
@@ -89,29 +109,29 @@ class Article extends React.Component {
       });
     }
   }
-/**
- * Removes a stored favourite article
- * @param {object} event - Object containing properties of the html element
- * displaying the selected favourite article
- */
+  /**
+   * Removes a stored favourite article
+   * @param {object} event - Object containing properties of the html element
+   * displaying the selected favourite article
+   */
   removeFavourite(event) {
     event.preventDefault();
     const key = event.target.getAttribute('data-articleUrl');
     Action.removeFavourite(key);
   }
-/**
- * Adds either the add or remove favourite button
- * @param {object} article - An object containing information about
- * the article to display
- * @return {object} returns an appropriate button to add or remove favourite
- * articles
- */
+  /**
+   * Adds either the add or remove favourite button
+   * @param {object} article - An object containing information about
+   * the article to display
+   * @return {object} returns an appropriate button to add or remove favourite
+   * articles
+   */
   favouriteAddDel(article) {
     let button = (<a href="#" data-articleImg={article.urlToImage}
-        data-articleTitle={article.title}
-        data-articleDesc={article.description}
-        data-articleUrl={article.url}
-        onClick={this.removeFavourite}>remove from favourites</a>);
+      data-articleTitle={article.title}
+      data-articleDesc={article.description}
+      data-articleUrl={article.url}
+      onClick={this.removeFavourite}>remove from favourites</a>);
     if (this.state.sourceName !== 'Favourite Articles') {
       button = (<a href="#" data-articleImg={article.urlToImage}
         data-articleTitle={article.title}
@@ -163,7 +183,7 @@ class Article extends React.Component {
       }
     return articleContents;
   }
-// Fired when the component is about to be rendered
+  // Fired when the component is about to be rendered
   render() {
     return (
       <div className="col-md-9" id="news-headline">
@@ -180,5 +200,4 @@ class Article extends React.Component {
     );
   }
 }
-
 export default Article;

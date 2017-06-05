@@ -19,7 +19,7 @@ exports[`The articles component should render with the exact content 1`] = `
          
       </span>
       Headlines from 
-      CNN
+      ...
     </h3>
   </div>
   <div>

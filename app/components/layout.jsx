@@ -66,6 +66,9 @@ export default class Layout extends React.Component {
     });
   }
   // get the stored articles from local storage
+  /**
+   * Get favourtie articles from the store
+   */
   getFavourites() {
     if (this.state.isLogedIn) {
       Action.fetchFavourites();
