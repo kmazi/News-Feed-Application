@@ -94,6 +94,7 @@ class Article extends React.Component {
     // Add article to storage if the user is authenticated
     if (this.state.isAuthenticated) {
       localStorage.setItem(favourite.url, JSON.stringify(favourite));
+      event.target.style.display = 'none';
       PopUp({
         title: 'Favourite Articles',
         text: 'You have successfully added an article to your favourite list',

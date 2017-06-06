@@ -11,77 +11,46 @@ You can filter through the articles by clicking on the lastest, popular or top b
 * View headlines from news sources around the world.
 * Users can search through various news sources around the world
 * Sign in using google plus.
-* Registered users can store their favourite articles.
+* Registered users can store their favorite articles.
 
 ## Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+To get the app ready, you need to have nodejs and the npm package installed in your computer. Create a .env file and get google client ID for google plus authentication [here](console.developers.google.com) as well as Key for accessing articles from the newsapi.org
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+To install this application, run :
 
 ```
-Give the example
+npm install
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+To run the tests in the application, run the following command:
 ```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+npm run test --coverage --watch
 ```
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+After development, copy all relevant files to the production server including the env file for hosting
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Nodejs](https://www.nodejs.org/en/docs) - The web framework used
+* [Reactjs](https://facebook.github.io/react/docs/hello-world.html) - An open source front end single page framework
+* [Webpack](http://webpack.github.io/docs/) - Use to bundle modules with dependencies
+* [Scss](http://sass-lang.com/documentation/file.SASS_REFERENCE.html) - Used for styling
+* [Bootstrap](http://getbootstrap.com/) - Frontend css styling framework
 
 ## Contributing
 
-Please read (https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+To contribute to this project, kindly fork the project make changes as well as comprehensive tests on all new features added. You can then make a pull request and mail me via this email - ugochukwu.mazi@andela.com- to merge your pull request.
 
-## Versioning
+## Author
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Mazi Ugochukwu** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Mazi Kingsley** 
 
 ## License
 
@@ -89,17 +58,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
-
-
-# Design
-The project relies on reactjs components to implement a single page frontend application. The flux architecture has been implemented- component, action, dispatcher and store workflow.
-
-# Installation
-* Fork the repository and clone into your local machine
-* Run npm install from any terminal to install all dependencies.
-* Run npm build to build the project and transpile its .scss file.
-* Run npm start to start the project on production mode using Express
-* Run npm dev to start up the project on development environment.
+* God
+* Mark Edomwande
+* Co Andelans
