@@ -73,7 +73,7 @@
     "url": "git+https://github.com/kmazi/News-Feed-Application.git"
   },
   "author": "Mazi Kingsley",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/kmazi/News-Feed-Application/issues"
   },

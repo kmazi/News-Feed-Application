@@ -3,11 +3,12 @@ import ReactDom from 'react-dom';
 import ReactRenderer from 'react-test-renderer';
 import LocalMock from '../../__mocks__/localStorageMock';
 import Article from './../../app/components/articles.jsx';
+import * as Action from '../../app/actions/actions';
 
 describe('The articles component', () => {
   it('must render without throwing error', () => {
     const div = document.createElement('div');
-    ReactDom.render(<Article />, div);
+    expect(ReactDom.render(<Article />, div)).not.toThrowError(/Exception/);
   });
 
   it('should render with the exact content', () => {
@@ -17,6 +18,7 @@ describe('The articles component', () => {
   });
   const eventMock = {
     target: {
+      style: { display: 'none' },
       getAttribute: (attrib) => {
         return `${attrib} mock`;
       }
@@ -43,7 +45,7 @@ describe('The articles component', () => {
     expect(spy).toBeCalled();
   });
 
-  it('should not allow user to add favourite article when they are logged in',
+  it('should display remove from favourites',
   () => {
     const article = new Article();
     const articleObj = {};
@@ -52,11 +54,11 @@ describe('The articles component', () => {
     articleObj.description = 'tests';
     article.state.isAuthenticated = true;
     article.state.sourceName = 'Favourite Articles';
-    const test = article.shouldRenderDelButton(articleObj);
-    expect(test).toBeNull();
+    const test = article.favouriteAddDel(articleObj);
+    expect(test.props.children).toBe('remove from favourites');
   });
 
-  it('should allow user to add favourite article when they are logged in',
+  it('should display add to favourites',
   () => {
     const article = new Article();
     const articleObj = {};
@@ -65,7 +67,14 @@ describe('The articles component', () => {
     articleObj.description = 'tests';
     article.state.isAuthenticated = true;
     article.state.sourceName = 'cnn';
-    const test = article.shouldRenderDelButton(articleObj);
-    expect(test).not.toBeNull();
+    const test = article.favouriteAddDel(articleObj);
+    expect(test.props.children).toBe('add to favourites');
+  });
+
+  it('should be able to remove favourite articles', () => {
+    const removeSpy = jest.spyOn(Action, 'removeFavourite');
+    const article = new Article();
+    article.removeFavourite(eventMock);
+    expect(removeSpy).toBeCalled();
   });
 });

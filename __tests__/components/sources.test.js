@@ -8,7 +8,8 @@ import Sources from './../../app/components/sources.jsx';
 describe('The sources component', () => {
   it('must render without throwing error', () => {
     const div = document.createElement('div');
-    ReactDom.render(<Sources />, div);
+    const outCome = ReactDom.render(<Sources />, div);
+    expect(outCome).not.toThrowError(/Exception/);
   });
 
   it('should show loading... initially before loading from api', () => {

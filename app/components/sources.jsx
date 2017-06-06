@@ -3,7 +3,9 @@ import jquery from 'jquery';
 import Axios from 'axios';
 import * as Action from './../actions/actions';
 import Store from './../store/store';
-
+/**
+ * Renders all the api sources from newsorg
+ */
 class Source extends React.Component {
   constructor() {
     super();
@@ -19,7 +21,7 @@ class Source extends React.Component {
     this.displayAvailableFilters = this.displayAvailableFilters.bind(this);
     this.filterArticles = this.filterArticles.bind(this);
   }
-
+// Function that fires before component get rendered
   componentWillMount() {
     // listening for change event from the store ie when
     // a link is clicked and the source changes
@@ -28,7 +30,7 @@ class Source extends React.Component {
       this.setState({ source: this.matchedSources });
     });
   }
-
+// Function that fires after component get rendered
   componentDidMount() {
     const url = 'https://newsapi.org/v1/sources';
     // connects to the api and get all the news sources
@@ -55,15 +57,25 @@ class Source extends React.Component {
     });
   }
   // Controls the sliding container housing the headline filter buttons
+  /**
+   * Shows or hides the buttons to filter the api
+   * @param {string} domElement - the html element that fired this event
+   */
   filterAccess(domElement) {
     const linkContainer = jquery(domElement);
-    linkContainer.closest('[data-content=sourcelinks]').click((event) => {
+    const clickedDiv = linkContainer.closest('[data-content=sourcelinks]');
+    clickedDiv.click((event) => {
       event.preventDefault();
       linkContainer.slideToggle();
+      clickedDiv.toggleClass('clicked-src-div');
     });
   }
   // The function that triggers the action when the source
   // filter button is clicked
+  /**
+   * Filters the articles from the newsapi
+   * @param {object} event - the html object that fired the event
+   */
   filterArticles(event) {
     event.preventDefault();
     const filter = event.target.getAttribute('data-filter');
@@ -72,6 +84,10 @@ class Source extends React.Component {
     Action.getFilteredArticle(filter, source, sourceName);
   }
   // Creates the function that gets headline news from from api
+  /**
+   * Gets article from the api from a given source
+   * @param {object} event - the html object that fired the event
+   */
   getArticles(event) {
     event.preventDefault();
     const sourceName = jquery(event.target).text();
@@ -79,6 +95,10 @@ class Source extends React.Component {
       sourceName);
   }
   // event handler function to search through sources
+  /**
+   * Searches through the sources list for a particular source
+   * @param {object} event - the html object that fired the event
+   */
   searchSources(event) {
     Action.searchThroughSources(event.target.value, this.state.sources);
   }
@@ -106,7 +126,7 @@ class Source extends React.Component {
     }
     return filteredElements;
   }
-
+// Function that fires when rendering the component
   render() {
     const sources = this.state.sources;
     let loadedSources = null;
@@ -153,5 +173,4 @@ class Source extends React.Component {
     );
   }
 }
-
 export default Source;

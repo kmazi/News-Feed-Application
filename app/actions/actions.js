@@ -119,3 +119,13 @@ export function fetchFavourites() {
     type: 'GET_FAVOURITE_ARTICLES'
   });
 }
+/**
+ * Dispatches the function to delete favourite articles from the localstorage
+ * @param {string} urlKey - the key to the article to be deleted
+ */
+export function removeFavourite(urlKey) {
+  dispatcher.dispatch({
+    type: 'REMOVE_FAVOURITE_ARTICLE',
+    urlKey
+  });
+}
