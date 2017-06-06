@@ -18,6 +18,7 @@ describe('The articles component', () => {
   });
   const eventMock = {
     target: {
+      style: { display: 'none' },
       getAttribute: (attrib) => {
         return `${attrib} mock`;
       }
