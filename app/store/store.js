@@ -104,6 +104,22 @@ class Store extends EventEmitter {
     this.isAuthenticated = true;
     this.emit('login');
   }
+  /**
+   * removes stored favourite article from storage
+   * @param {string} urlKey - the url of the article stored as favourite
+   */
+  removeFavourite(urlKey) {
+    localStorage.removeItem(urlKey);
+    let index = 0;
+    while (index < this.savedArticles.length) {
+      if (this.savedArticles[index].url === urlKey) {
+        this.savedArticles.splice(index, 1);
+        break;
+      }
+      index += 1;
+    }
+    this.emit('favourites');
+  }
 /**
  * Signs out the user by deleting their username and email from localstorage
  * @param {string} email - The email of the user
@@ -143,6 +159,10 @@ class Store extends EventEmitter {
     }
     case 'SIGN_OUT_USER': {
       this.signOutUser(action.user.email);
+      break;
+    }
+    case 'REMOVE_FAVOURITE_ARTICLE': {
+      this.removeFavourite(action.urlKey);
       break;
     }
     default:

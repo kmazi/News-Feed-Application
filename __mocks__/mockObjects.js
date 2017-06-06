@@ -1,4 +1,4 @@
-const articles = [{
+const mockObjects = [{
   id: 'abc-news-au',
   name: 'ABC News (AU)',
   description: `Australia's most trusted source of local,
@@ -38,4 +38,4 @@ const articles = [{
   ]
 }];
 
-export default articles;
+export default mockObjects;

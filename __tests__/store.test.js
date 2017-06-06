@@ -1,6 +1,6 @@
 import Store from './../app/store/store';
 import MockSourceObj from '../__mocks__/mockObjects';
-import LocalMock from '../__mocks__/localStorageMock';
+import '../__mocks__/localStorageMock';
 
 describe('The constructor', () => {
   it('must create the articles property', () => {
@@ -271,5 +271,13 @@ describe('The handleAllActions function', () => {
     Store.matchedSourceList = [];
     Store.handleAllActions(action);
     expect(Store.matchedSourceList.length).toBeLessThanOrEqual(0);
+  });
+
+  it('should execute the removeFavourite function', () => {
+    Store.savedArticles = [{ title: 'hello' }];
+    const spyRemove = jest.spyOn(Store, 'removeFavourite');
+    action.type = 'REMOVE_FAVOURITE_ARTICLE';
+    Store.handleAllActions(action);
+    expect(spyRemove).toBeCalled();
   });
 });

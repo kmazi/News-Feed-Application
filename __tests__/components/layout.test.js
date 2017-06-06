@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import LocalMock from '../../__mocks__/localStorageMock';
+import '../../__mocks__/localStorageMock';
 import * as Action from '../../app/actions/actions';
 import Layout from './../../app/components/layout.jsx';
 

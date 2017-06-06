@@ -5,7 +5,9 @@ import * as Action from './../actions/actions';
 import Store from './../store/store';
 import Article from './articles.jsx';
 import Source from './sources.jsx';
-
+/**
+ * The layout component which houses all other components
+ */
 export default class Layout extends React.Component {
   constructor() {
     super();
@@ -19,7 +21,7 @@ export default class Layout extends React.Component {
     this.failedGoogleLogin = this.failedGoogleLogin.bind(this);
     this.signOut = this.signOut.bind(this);
   }
-
+// fires before the component is mounted
   componentWillMount() {
     Store.on('login', () => {
       this.setState({
@@ -36,6 +38,11 @@ export default class Layout extends React.Component {
     });
   }
   // called when user logs in successfully using google+
+  /**
+   * Signs the user in from google+
+   * @param {object} response - response from the google api containing
+   * user profile information
+   */
   successGoogleLogin(response) {
     const userInfo = response.profileObj,
       userName = userInfo.familyName,
@@ -43,6 +50,9 @@ export default class Layout extends React.Component {
     Action.signInUser(userName, userEmail);
   }
   // Called when user logs out from the application
+  /**
+   * Signs the user out of the application
+   */
   signOut() {
     Action.signOutUser(this.state.user);
   }
@@ -56,6 +66,9 @@ export default class Layout extends React.Component {
     });
   }
   // get the stored articles from local storage
+  /**
+   * Get favourtie articles from the store
+   */
   getFavourites() {
     if (this.state.isLogedIn) {
       Action.fetchFavourites();
