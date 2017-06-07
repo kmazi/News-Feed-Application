@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import '../../__mocks__/localStorageMock';
 import * as Action from '../../app/actions/actions';
-import Layout from './../../app/components/layout.jsx';
+import Layout from './../../app/components/Layout.jsx';
 
 describe('The layout component', () => {
   it('should render all component correctly', () => {

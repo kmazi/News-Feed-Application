@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import { shallow } from 'enzyme';
 import ReactRenderer from 'react-test-renderer';
 import * as Action from '../../app//actions/actions';
-import Sources from './../../app/components/sources.jsx';
+import Sources from './../../app/components/Sources.jsx';
 
 describe('The sources component', () => {
   it('must render without throwing error', () => {

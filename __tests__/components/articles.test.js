@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import ReactRenderer from 'react-test-renderer';
 import LocalMock from '../../__mocks__/localStorageMock';
-import Article from './../../app/components/articles.jsx';
+import Article from './../../app/components/Articles.jsx';
 import * as Action from '../../app/actions/actions';
 
 describe('The articles component', () => {

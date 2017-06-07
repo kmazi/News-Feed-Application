@@ -52,14 +52,15 @@ class Article extends React.Component {
     const articleUrl = 'https://newsapi.org/v1/articles';
     const sourceUrl = 'https://newsapi.org/v1/sources';
     Axios.get(sourceUrl).then((res) => {
-      const index = this.getRandomInt(0, 70);
-      const sourceId = res.data.sources[index].id;
-      const srcName = res.data.sources[index].name;
+      const position = this.getRandomInt(0, 70);
+      const sourceId = res.data.sources[position].id;
+      const defaultSourceName = res.data.sources[position].name;
       const key = process.env.NEWS_API_KEY;
       const paramInfo = { params: { source: sourceId, apiKey: key } };
       // make asynchronous call to newsapi.org for articles
       Axios.get(articleUrl, paramInfo).then((res) => {
-        this.setState({ articles: res.data.articles, sourceName: srcName });
+        this.setState({ articles: res.data.articles,
+          sourceName: defaultSourceName });
       });
     });
   }

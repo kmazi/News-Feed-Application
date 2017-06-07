@@ -3,8 +3,8 @@ import GoogleLogin from 'react-google-login';
 import PopUp from 'sweetalert2';
 import * as Action from './../actions/actions';
 import Store from './../store/store';
-import Article from './articles.jsx';
-import Source from './sources.jsx';
+import Article from './Articles.jsx';
+import Source from './Sources.jsx';
 /**
  * The layout component which houses all other components
  * @extends React.Component
