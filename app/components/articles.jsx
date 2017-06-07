@@ -1,25 +1,32 @@
 import React from 'react';
 import Axios from 'axios';
 import PopUp from 'sweetalert2';
+import PropTypes from 'prop-types';
 import Store from './../store/store';
 import * as Action from './../actions/actions';
 /**
  * Controls the rendering of the headlines or articles
+ * @extends React.Component
  */
 class Article extends React.Component {
+  /**
+   * Creates an article component
+   */
   constructor() {
     super();
     this.state = {
       articles: [],
       sourceName: '...',
-      filter: '',
-      isAuthenticated: false
+      filter: ''
     };
+    this.favouriteArticles = [];
     this.addFavourite = this.addFavourite.bind(this);
     this.removeFavourite = this.removeFavourite.bind(this);
     this.getRandomInt = this.getRandomInt.bind(this);
   }
-  // Runs before the component mounts
+  /**
+   * Executes when the component is to be mounted
+   */
   componentWillMount() {
     // listen for click event from the store
     Store.on('click', () => {
@@ -27,20 +34,6 @@ class Article extends React.Component {
         articles: Store.articles,
         sourceName: Store.sourceName,
         filter: Store.filter
-      });
-    });
-    // listen for login event from the store
-    Store.on('login', () => {
-      this.setState({
-        isAuthenticated: Store.isAuthenticated,
-        user: Store.user
-      });
-    });
-    // listen for logout event from the store
-    Store.on('logout', () => {
-      this.setState({
-        isAuthenticated: Store.isAuthenticated,
-        user: Store.user
       });
     });
     // listen for favourites event from the store
@@ -52,7 +45,9 @@ class Article extends React.Component {
       });
     });
   }
-  // Called after component has mounted
+  /**
+   * Function that executes after component has mounted
+   */
   componentDidMount() {
     const articleUrl = 'https://newsapi.org/v1/articles';
     const sourceUrl = 'https://newsapi.org/v1/sources';
@@ -92,15 +87,17 @@ class Article extends React.Component {
     favourite.description = event.target.getAttribute('data-articleDesc');
     favourite.url = event.target.getAttribute('data-articleUrl');
     // Add article to storage if the user is authenticated
-    if (this.state.isAuthenticated) {
-      localStorage.setItem(favourite.url, JSON.stringify(favourite));
-      event.target.style.display = 'none';
+    if (this.props.isAuthenticated) {
+      this.favouriteArticles.push(favourite);
+      localStorage.setItem('favouriteArticles',
+      JSON.stringify(this.favouriteArticles));
       PopUp({
         title: 'Favourite Articles',
         text: 'You have successfully added an article to your favourite list',
         type: 'success',
         confirmButtonText: 'ok'
       });
+      event.target.style.display = 'none';
     } else {
       PopUp({
         title: 'Not Logged in',
@@ -128,10 +125,12 @@ class Article extends React.Component {
    * articles
    */
   favouriteAddDel(article) {
+    const display = { display: 'inline' };
     let button = (<a href="#" data-articleImg={article.urlToImage}
       data-articleTitle={article.title}
       data-articleDesc={article.description}
       data-articleUrl={article.url}
+      style={display}
       onClick={this.removeFavourite}>remove from favourites</a>);
     if (this.state.sourceName !== 'Favourite Articles') {
       button = (<a href="#" data-articleImg={article.urlToImage}
@@ -184,7 +183,10 @@ class Article extends React.Component {
       }
     return articleContents;
   }
-  // Fired when the component is about to be rendered
+  /**
+   * Fired when the component is about to be rendered
+   * @return {object} - an object containing the react object to render
+   */
   render() {
     return (
       <div className="col-md-9" id="news-headline">
@@ -201,4 +203,8 @@ class Article extends React.Component {
     );
   }
 }
+
+Article.propTypes = {
+  isAuthenticated: PropTypes.bool
+};
 export default Article;

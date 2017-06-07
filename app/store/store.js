@@ -5,8 +5,7 @@ import dispatcher from './../dispatcher';
  */
 class Store extends EventEmitter {
   /**
-   * Represents the store
-   * @constructor
+   * Creates a Store
    */
   constructor() {
     super();
@@ -73,20 +72,12 @@ class Store extends EventEmitter {
    * Dispatches the function to get favourite articles from the localstorage
    */
   getFavouriteArticles() {
-    const favouriteArticles = [],
-      keys = Object.keys(localStorage);
-    let index = keys.length - 1;
-    while (index >= 0) {
-      let article = localStorage.getItem(keys[index]);
-      try {
-        article = JSON.parse(article);
-        favouriteArticles.push(article);
-        index -= 1;
-      } catch (err) {
-        index -= 1;
-      }
+    let favouriteArticles = [];
+    let article = localStorage.getItem('favouriteArticles');
+    if (article) {
+      article = JSON.parse(article);
+      favouriteArticles = article;
     }
-
     this.savedArticles = favouriteArticles.length === 0 ?
       'No articles stored in your favourite list' :
       favouriteArticles;
@@ -100,7 +91,7 @@ class Store extends EventEmitter {
   signInUser(name, email) {
     const user = { name, email };
     this.user = user;
-    localStorage.setItem(email, name);
+    localStorage.setItem('userProfile', JSON.stringify(user));
     this.isAuthenticated = true;
     this.emit('login');
   }
@@ -109,23 +100,27 @@ class Store extends EventEmitter {
    * @param {string} urlKey - the url of the article stored as favourite
    */
   removeFavourite(urlKey) {
-    localStorage.removeItem(urlKey);
+    const storedArticles =
+    JSON.parse(localStorage.getItem('favouriteArticles'));
     let index = 0;
-    while (index < this.savedArticles.length) {
-      if (this.savedArticles[index].url === urlKey) {
-        this.savedArticles.splice(index, 1);
+    while (index < storedArticles.length) {
+      if (storedArticles[index].url === urlKey) {
+        storedArticles.splice(index, 1);
         break;
       }
       index += 1;
     }
+    localStorage.setItem('favouriteArticles',
+      JSON.stringify(storedArticles));
+    this.savedArticles = storedArticles;
     this.emit('favourites');
   }
 /**
  * Signs out the user by deleting their username and email from localstorage
  * @param {string} email - The email of the user
  */
-  signOutUser(email) {
-    localStorage.removeItem(email);
+  signOutUser() {
+    localStorage.clear();
     this.isAuthenticated = false;
     this.user = {};
     this.emit('logout');
@@ -158,7 +153,7 @@ class Store extends EventEmitter {
       break;
     }
     case 'SIGN_OUT_USER': {
-      this.signOutUser(action.user.email);
+      this.signOutUser();
       break;
     }
     case 'REMOVE_FAVOURITE_ARTICLE': {
