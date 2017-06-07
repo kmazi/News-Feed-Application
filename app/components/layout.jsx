@@ -1,14 +1,18 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
-import swal from 'sweetalert2';
+import PopUp from 'sweetalert2';
 import * as Action from './../actions/actions';
 import Store from './../store/store';
 import Article from './articles.jsx';
 import Source from './sources.jsx';
 /**
  * The layout component which houses all other components
+ * @extends React.Component
  */
 export default class Layout extends React.Component {
+  /**
+   * Creates the layout component
+   */
   constructor() {
     super();
     this.state = {
@@ -21,8 +25,14 @@ export default class Layout extends React.Component {
     this.failedGoogleLogin = this.failedGoogleLogin.bind(this);
     this.signOut = this.signOut.bind(this);
   }
-// fires before the component is mounted
+/**
+ * fires before the component is mounted
+ */
   componentWillMount() {
+    const userProfile = localStorage.getItem('userProfile');
+    if (userProfile) {
+      this.setState({ isLogedIn: true, user: JSON.parse(userProfile) });
+    }
     Store.on('login', () => {
       this.setState({
         isLogedIn: Store.isAuthenticated,
@@ -44,10 +54,8 @@ export default class Layout extends React.Component {
    * user profile information
    */
   successGoogleLogin(response) {
-    const userInfo = response.profileObj,
-      userName = userInfo.familyName,
-      userEmail = userInfo.email;
-    Action.signInUser(userName, userEmail);
+    const userInfo = response.profileObj;
+    Action.signInUser(userInfo.familyName, userInfo.email);
   }
   // Called when user logs out from the application
   /**
@@ -56,9 +64,11 @@ export default class Layout extends React.Component {
   signOut() {
     Action.signOutUser(this.state.user);
   }
-  // called when user fails to login successfully using google+
+  /**
+   * fires when user fails to login successfully using google+
+   */
   failedGoogleLogin() {
-    swal({
+    PopUp({
       title: 'Login Failed',
       text: 'Try to login using your google mail account',
       type: 'error',
@@ -73,7 +83,7 @@ export default class Layout extends React.Component {
     if (this.state.isLogedIn) {
       Action.fetchFavourites();
     } else {
-      swal({
+      PopUp({
         title: 'Not Logged in',
         text: 'Login to view saved articles!',
         type: 'error',
@@ -81,7 +91,10 @@ export default class Layout extends React.Component {
       });
     }
   }
-  // Render the general layout
+  /**
+   * Render the general layout
+   * @return {object} returns the react component to be rendered
+   */
   render() {
     const minHeight = {
       minHeight: window.innerHeight - 342
@@ -114,7 +127,7 @@ export default class Layout extends React.Component {
         <div className="container" style={minHeight}>
           <div className="row">
             <Source />
-            <Article />
+            <Article isAuthenticated={this.state.isLogedIn}/>
           </div>
         </div>
 

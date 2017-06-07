@@ -12,7 +12,7 @@ describe('The articles component', () => {
   });
 
   it('should render with the exact content', () => {
-    const component = ReactRenderer.create(<Article />);
+    const component = ReactRenderer.create(<Article isAuthenticated />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -31,7 +31,7 @@ describe('The articles component', () => {
   describe('before adding favourite articles', () => {
     it('should check if the user is authenticated', () => {
       const article = new Article();
-      article.state.isAuthenticated = false;
+      article.props = { isAuthenticated: false };
       article.addFavourite(eventMock);
       expect(spy).not.toBeCalled();
     });
@@ -40,7 +40,7 @@ describe('The articles component', () => {
   it('should allow user to add favourite article when they are logged in',
   () => {
     const article = new Article();
-    article.state.isAuthenticated = true;
+    article.props = { isAuthenticated: true };
     article.addFavourite(eventMock);
     expect(spy).toBeCalled();
   });

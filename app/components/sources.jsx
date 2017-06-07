@@ -5,8 +5,12 @@ import * as Action from './../actions/actions';
 import Store from './../store/store';
 /**
  * Renders all the api sources from newsorg
+ * @extends React.Component
  */
 class Source extends React.Component {
+  /**
+   * Creates a Source component
+   */
   constructor() {
     super();
     this.state = {
@@ -21,7 +25,9 @@ class Source extends React.Component {
     this.displayAvailableFilters = this.displayAvailableFilters.bind(this);
     this.filterArticles = this.filterArticles.bind(this);
   }
-// Function that fires before component get rendered
+/**
+ * Function that fires before component get rendered
+ */
   componentWillMount() {
     // listening for change event from the store ie when
     // a link is clicked and the source changes
@@ -30,7 +36,9 @@ class Source extends React.Component {
       this.setState({ source: this.matchedSources });
     });
   }
-// Function that fires after component get rendered
+/**
+ * Function that fires after component get rendered
+ */
   componentDidMount() {
     const url = 'https://newsapi.org/v1/sources';
     // connects to the api and get all the news sources
@@ -126,7 +134,10 @@ class Source extends React.Component {
     }
     return filteredElements;
   }
-// Function that fires when rendering the component
+/**
+ * Function that fires when rendering the component
+ * @return {object} - Returns the react object created
+ */
   render() {
     const sources = this.state.sources;
     let loadedSources = null;

@@ -1,3 +1,4 @@
+import Sinon from 'sinon';
 import Store from './../app/store/store';
 import MockSourceObj from '../__mocks__/mockObjects';
 import '../__mocks__/localStorageMock';
@@ -275,9 +276,9 @@ describe('The handleAllActions function', () => {
 
   it('should execute the removeFavourite function', () => {
     Store.savedArticles = [{ title: 'hello' }];
-    const spyRemove = jest.spyOn(Store, 'removeFavourite');
+    const spyRemove = Sinon.stub(Store, 'removeFavourite');
     action.type = 'REMOVE_FAVOURITE_ARTICLE';
     Store.handleAllActions(action);
-    expect(spyRemove).toBeCalled();
+    expect(spyRemove.calledOnce).toBe(true);
   });
 });
