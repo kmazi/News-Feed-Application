@@ -71,12 +71,12 @@
       "requireParamDescription": false,
       "requireReturnDescription": false
     }],
-    "require-jsdoc": [1, {
-      "require": {
-        "FunctionDeclaration": true,
-        "MethodDefinition": false,
-        "ClassDeclaration": false
-      }
+    "require-jsdoc": ["error", {
+        "require": {
+            "FunctionDeclaration": true,
+            "MethodDefinition": true,
+            "ClassDeclaration": true
+        }
     }]
   }
 }
