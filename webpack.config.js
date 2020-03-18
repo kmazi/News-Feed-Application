@@ -29,7 +29,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(scss|sass)$/,
+        test: /\.(scss)$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           // resolve-url-loader may be chained before sass-loader if necessary
